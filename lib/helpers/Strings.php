@@ -4,7 +4,7 @@ namespace PHPDailyFunctions\Helpers;
 /**
  * Model for help in common routines.
  */
-class String
+class Strings
 {
     /**
      * Replaces every token taken from keys of $tokenValueArray by corresponding value taken from $tokenValueArray.
@@ -26,7 +26,7 @@ class String
 
     /**
      * Replaces every token taken from keys of $tokenValueArray by corresponding value taken from $tokenValueArray.
-     * Keys of $tokenValueArray are regular expression without slashes at the begining and at the end).
+     * Keys of $tokenValueArray is regular expression without slashes at the begining and at the end).
      *
      * @param $string
      * @param $tokenValueArray

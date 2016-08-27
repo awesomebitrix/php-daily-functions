@@ -8,14 +8,14 @@ namespace PHPDailyFunctions\Helpers;
 class Common
 {
     /**
-     * Truncates string using $your_desired_width as number chars to truncate and uses words to make upper bound.
+     * Truncates string using $desiredLength as number chars to truncate and uses words to make upper bound.
      *
      * @param $string - input string
-     * @param $your_desired_width - desired width
+     * @param $desiredLength - desired width
      * @param string $suffix
      * @return string - result string
      */
-    static function truncateStringByCharsWords($string, $your_desired_width, $suffix = '')
+    static function truncateStringByCharsWords($string, $desiredLength, $suffix = '')
     {
         $parts = preg_split('/([\s\n\r]+)/', $string, null, PREG_SPLIT_DELIM_CAPTURE);
         $parts_count = count($parts);
@@ -24,7 +24,7 @@ class Common
         $last_part = 0;
         for (; $last_part < $parts_count; ++$last_part) {
             $length += strlen($parts[$last_part]);
-            if ($length > $your_desired_width) {
+            if ($length > $desiredLength) {
                 if (!empty($suffix) && strpos($parts[$last_part-1], $suffix)===false) {
                     if ($parts[$last_part-1] = ' ') $parts[$last_part-1] = '';
                     $parts[$last_part++] = $suffix;

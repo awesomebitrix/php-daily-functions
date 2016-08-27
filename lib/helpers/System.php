@@ -8,6 +8,8 @@ namespace PHPDailyFunctions\Helpers;
 class System
 {
     /**
+     * Basic auth like php function
+     *
      * @param array $credentials - array of arrays:
      *  [
      *  'password' =>' your_pass',

@@ -6,4 +6,4 @@ How to install
 -
 composer require bfday/php-daily-functions:{version}
 
-for {version} look git tags
+For {version} look git tags

@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPDailyFunctions\Helpers;
+namespace PHPDailyFunctions\Bitrix\Helpers;
 
 /**
  * Model for help in common routines.
