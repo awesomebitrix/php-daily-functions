@@ -40,7 +40,9 @@ class Strings
     public static final function classNameToNavItem($string, $classNamePostfix = '', $splitter = '-')
     {
         $string = lcfirst($string);
-        if (!empty($classNamePostfix)) $string = str_replace($classNamePostfix, '', $string);
+        // checks if $classNamePostfix is at the end of the string, then replaces it
+        if (!empty($classNamePostfix) && strpos($string, $classNamePostfix) == strlen($string) - strlen($classNamePostfix))
+            $string = substr_replace($string, '', strlen($string) - strlen($classNamePostfix), strlen($classNamePostfix));
         $string = preg_replace_callback("/([A-Z])/", function($matches) use($splitter){
             return $splitter . lcfirst($matches[1]);
         }, $string);
