@@ -1,0 +1,8 @@
+#!/bin/bash
+# fast method to add changes to this repo
+TAG_NAME=v1.0.0
+git add --all
+git commit -m "new changes"
+git push
+git tag -f -a ${TAG_NAME} -m "version ${TAG_NAME}"
+git push -f origin ${TAG_NAME}

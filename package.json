@@ -1,0 +1,27 @@
+{
+  "author": "Stepanov Stanislav",
+  "name": "PHP daily functions",
+  "description": "PHP daily routine functions to help to developer",
+  "homepage": "https://github.com/bfday/php-daily-functions",
+  "licenses": [
+    {
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bfday/php-daily-functions.git"
+  },
+  "main": "php-daily-functions",
+  "engines": {
+  },
+  "bin": {
+  },
+  "scripts": {
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "browser": {
+  }
+}
