@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Traits;
+namespace bfday\PHPDailyFunctions\Traits;
 
 trait SetGetExtendedTrait
 {

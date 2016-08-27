@@ -1,5 +1,5 @@
 <?
-namespace bfday\\Base\Traits;
+namespace bfday\PHPDailyFunctions\Traits;
 
 trait JsonFormatter
 {
