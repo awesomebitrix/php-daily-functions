@@ -1,10 +1,18 @@
 #!/bin/bash
 # fast method to add changes to this repo
+TAG_NAME=v1.0.0
 COMMENT="new changes"
 if [[ "$@" != "" ]]; then
     COMMENT="$@"
 fi
-TAG_NAME=v1.0.0
+while true; do	
+	read -p "commit description: '$COMMENT'. tag name: '$TAG_NAME'. commit? (y,n) " yn
+	case $yn in
+		[Yy]* ) break;;
+		[Nn]* ) echo 'Canceled.'; exit 1;;
+		* ) echo "Please answer yes or no.";;
+	esac
+done
 git add --all
 git commit -m "$COMMENT"
 git push
