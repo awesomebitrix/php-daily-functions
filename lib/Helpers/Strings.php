@@ -29,7 +29,11 @@ class Strings
      * Keys of $tokenValueArray is regular expression without slashes at the begining and at the end).
      *
      * @param $string
-     * @param $tokenValueArray
+     * @param $tokenValueArray - array(
+     *  'RegExpToken1' => 'replaceValue1',
+     *  'RegExpToken2' => 'replaceValue2',
+     *  ...
+     * )
      * @return mixed
      * @throws \Exception
      */
