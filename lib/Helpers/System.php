@@ -37,4 +37,10 @@ class System
             }
         }
     }
+
+    static public function getMicrotimeFloat()
+    {
+        list($usec, $sec) = explode(" ", microtime());
+        return ((float)$usec + (float)$sec);
+    }
 }
