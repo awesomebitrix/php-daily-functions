@@ -6,6 +6,14 @@ namespace bfday\PHPDailyFunctions\Helpers\Controllers;
  */
 class Strings
 {
+    public static final function navItemToMethodName($string, $classNamePostfix = '', $splitter = '-')
+    {
+        $string = preg_replace_callback("/$splitter([a-z])/", function($matches){
+            return ucfirst($matches[1]);
+        }, $string);
+        return $string . $classNamePostfix;
+    }
+
     /**
      * Converts string that represents controller name to controller class name.
      * Examples:
@@ -24,6 +32,17 @@ class Strings
             return ucfirst($matches[1]);
         }, $string);
         return $string . $classNamePostfix;
+    }
+
+    public static final function methodNameToNavItem($string, $classNamePostfix = '', $splitter = '-')
+    {
+        // checks if $classNamePostfix is at the end of the string, then replaces it
+        if (!empty($classNamePostfix) && strpos($string, $classNamePostfix) == strlen($string) - strlen($classNamePostfix))
+            $string = substr_replace($string, '', strlen($string) - strlen($classNamePostfix), strlen($classNamePostfix));
+        $string = preg_replace_callback("/([A-Z])/", function($matches) use($splitter){
+            return $splitter . lcfirst($matches[1]);
+        }, $string);
+        return $string;
     }
 
     /**
