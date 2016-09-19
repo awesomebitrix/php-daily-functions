@@ -7,6 +7,7 @@ namespace bfday\PHPDailyFunctions\Helpers;
  */
 class System
 {
+    static protected $prodDomains;
     /**
      * Basic auth like php function
      *
@@ -42,5 +43,37 @@ class System
     {
         list($usec, $sec) = explode(" ", microtime());
         return ((float)$usec + (float)$sec);
+    }
+
+    static public function initProdDomains($prodDomains)
+    {
+        if ($prodDomains !== null && is_array($prodDomains)) {
+            static::$prodDomains = $prodDomains;
+        } else {
+            throw new \ErrorException('Property $prodDomains must be of array type.');
+        }
+    }
+
+    /**
+     * Checks if this environment is production environment.
+     *
+     * @param null|array $prodDomains
+     * @return bool
+     * @throws \ErrorException
+     */
+    static public function isProdEnvironment($prodDomains = null)
+    {
+        return in_array($_SERVER['HTTP_HOST'], static::getProdDomains());
+    }
+
+    /**
+     * @return array
+     */
+    static public function getProdDomains()
+    {
+        if (static::$prodDomains === null) {
+            throw new \ErrorException('Property $prodDomains is not initialized.');
+        }
+        return self::$prodDomains;
     }
 }
