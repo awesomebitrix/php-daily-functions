@@ -47,7 +47,7 @@ class System
 
     static public function initProdDomains($prodDomains)
     {
-        if ($prodDomains !== null && is_array($prodDomains)) {
+        if (($prodDomains !== null) && (is_array($prodDomains))) {
             static::$prodDomains = $prodDomains;
         } else {
             throw new \ErrorException('Property $prodDomains must be of array type.');
