@@ -90,7 +90,7 @@ class Arrays
             Debug::logVar($specialKeyItem);
             if (strlen($specialKeyItem) == 0) throw new \ErrorException('Key item cannot be empty.');
             if (!isset($ar[$specialKeyItem])) $ar[$specialKeyItem] = [];
-            if (!is_array($ar[$specialKeyItem])) throw new \ErrorException('Value should be of array type');
+            if (!is_array($ar[$specialKeyItem])) throw new \ErrorException('Value should be of array type.');
             $ar =& $ar[$specialKeyItem];
         }
         $ar = $value;
