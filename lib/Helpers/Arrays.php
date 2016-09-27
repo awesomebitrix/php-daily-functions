@@ -1,4 +1,5 @@
 <?php
+
 namespace bfday\PHPDailyFunctions\Helpers;
 
 /**
@@ -9,10 +10,17 @@ class Arrays
 {
     const SORT_ORDER_DESC = 1;
     const SORT_ORDER_ASC = 2;
-    const SORT_ORDERS = [
-        self::SORT_ORDER_DESC,
-        self::SORT_ORDER_ASC,
-    ];
+    static $sortOrders;
+
+    const DEFAULT_KEY_SPLITTER = '.';
+
+    static public function init()
+    {
+        static::$sortOrders = [
+            self::SORT_ORDER_DESC,
+            self::SORT_ORDER_ASC,
+        ];
+    }
 
     /**
      * [
@@ -34,10 +42,12 @@ class Arrays
      * @return array
      * @throws \ErrorException
      */
-    public static function sortByInternalKeys(&$ar, $specialKey, $sortOrder = self::SORT_ORDER_ASC, $keySplitter = '.')
+    static public function sortByInternalKeys(&$ar, $specialKey, $sortOrder = self::SORT_ORDER_ASC, $keySplitter = '.')
     {
-        if (!in_array($sortOrder, static::SORT_ORDERS))
-            throw new \ErrorException('Wrong sort order type. Use SORT_ORDERS constant to define it.');
+        static::init();
+
+        if (!in_array($sortOrder, static::$sortOrders))
+            throw new \ErrorException('Wrong sort order type. Use static::$sortOrders to define them.');
         $helpAr = [];
         foreach ($ar as $item) {
             $helpAr[] = static::getValueBySpecialKey($item, $specialKey, $keySplitter);
@@ -54,27 +64,49 @@ class Arrays
      * @return null|mixed - value by special key.
      * @throws \ErrorException
      */
-    public static function getValueBySpecialKey(&$ar, $specialKey, $keySplitter = '.')
+    static public function getValueBySpecialKey(&$ar, $specialKey, $keySplitter = '.')
     {
+        static::init();
+
         if (strlen($keySplitter) == 0) throw new \ErrorException('Key splitter cannot be empty.');
+        if (!is_array($ar)) throw new \ErrorException('$ar param must be an array type.');
         $specialKeyArray = explode($keySplitter, $specialKey);
         foreach ($specialKeyArray as $specialKeyItem) {
             if (strlen($specialKeyItem) == 0) throw new \ErrorException('Key item cannot be empty.');
+            if (!isset($ar[$specialKeyItem])) return null;
             $ar =& $ar[$specialKeyItem];
-            if (!isset($ar)) return null;
         }
         return $ar;
     }
 
-    public static function setValueBySpecialKey(&$ar, $specialKey, $value, $keySplitter = '.')
+    static public function setValueBySpecialKey(&$ar, $specialKey, $value, $keySplitter = '.')
     {
+        static::init();
+
         if (strlen($keySplitter) == 0) throw new \ErrorException('Key splitter cannot be empty.');
+        if (!is_array($ar)) throw new \ErrorException('$ar param must be an array type.');
         $specialKeyArray = explode($keySplitter, $specialKey);
         foreach ($specialKeyArray as $specialKeyItem) {
+            Debug::logVar($specialKeyItem);
             if (strlen($specialKeyItem) == 0) throw new \ErrorException('Key item cannot be empty.');
+            if (!isset($ar[$specialKeyItem])) $ar[$specialKeyItem] = [];
+            if (!is_array($ar[$specialKeyItem])) throw new \ErrorException('Value should be of array type');
             $ar =& $ar[$specialKeyItem];
-            if (!isset($ar)) $ar = [];
         }
         $ar = $value;
+    }
+
+    static public function getAllValuesBySpecialKey(&$ar, $specialKey, $keySplitter = '.')
+    {
+        static::init();
+
+        if (!is_array($ar)) throw new \ErrorException('$ar param must be an array type.');
+        $values = [];
+        foreach ($ar as $item) {
+            $value = static::getValueBySpecialKey($item, $specialKey);
+            if (empty($value)) return $values;
+            $values[] = static::getValueBySpecialKey($item, $specialKey);
+        }
+        return $values;
     }
 }
