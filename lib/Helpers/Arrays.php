@@ -87,7 +87,6 @@ class Arrays
         if (!is_array($ar)) throw new \ErrorException('$ar param must be an array type.');
         $specialKeyArray = explode($keySplitter, $specialKey);
         foreach ($specialKeyArray as $specialKeyItem) {
-            Debug::logVar($specialKeyItem);
             if (strlen($specialKeyItem) == 0) throw new \ErrorException('Key item cannot be empty.');
             if (!isset($ar[$specialKeyItem])) $ar[$specialKeyItem] = [];
             if (!is_array($ar[$specialKeyItem])) throw new \ErrorException('Value should be of array type.');
