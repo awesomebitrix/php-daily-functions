@@ -71,6 +71,11 @@ class GaCookieValue
         return $this->timestamp;
     }
 
+    public function getCid()
+    {
+        return $this->getUid() . '.' . $this->getTimestamp();
+    }
+
     public function toArray()
     {
         return [
