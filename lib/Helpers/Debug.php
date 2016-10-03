@@ -50,7 +50,7 @@ class Debug
      */
     public static function logVar($var)
     {
-        file_put_contents(static::$logFilePath, print_r($var, true) . "\r\n", FILE_APPEND);
+        file_put_contents(static::$logFilePath, '[ ' . date(\DateTime::W3C) . ' ] ' . print_r($var, true) . "\r\n", FILE_APPEND);
         return true;
     }
 
