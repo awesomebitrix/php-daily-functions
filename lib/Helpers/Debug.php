@@ -30,14 +30,16 @@ class Debug
     {
         file_put_contents(static::$logFilePath, '');
     }
+
     /**
      * Shorten for '<pre>'.print_r($var, true).'</pre>'
      *
      * @param $var
      * @return string
      */
-    public static function viewVar($var){
-        return '<pre>'.print_r($var, true).'</pre>';
+    public static function viewVar($var)
+    {
+        return '<pre>' . print_r($var, true) . '</pre>';
     }
 
     /**
@@ -46,29 +48,33 @@ class Debug
      * @param $var
      * @return string
      */
-    public static function logVar($var){
-        error_log(print_r($var,true));
+    public static function logVar($var)
+    {
+        file_put_contents(static::$logFilePath, print_r($var, true) . "\r\n", FILE_APPEND);
         return true;
     }
 
     /**
      * Initializing or updates timestamp for logging time points.
      */
-    public static function updateTimestamp(){
+    public static function updateTimestamp()
+    {
         static::$timestamp = microtime(true);
     }
 
     /**
      * @return mixed - current timestamp minus reserved.
      */
-    public static function getTimestampDiff(){
+    public static function getTimestampDiff()
+    {
         return (microtime(true) - static::$timestamp);
     }
 
     /**
      * @return mixed - returns current timestamp minus reserved then updates timestamp to current.
      */
-    public static function getTimestampDiffUpdate(){
+    public static function getTimestampDiffUpdate()
+    {
         $diff = microtime(true) - static::$timestamp;
         static::updateTimestamp();
         return $diff;
