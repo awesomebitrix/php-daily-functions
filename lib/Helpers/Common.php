@@ -92,7 +92,15 @@ class Common
      */
     static function formatPrice($price, $digitsAfterDecimal = 0, $decimalDivider = '.', $thousandsSeparator = ' ')
     {
-        if (!is_float($price)) throw new \Exception('Variable $price in  "' . __METHOD__ . '" should be an integer and greater than 0.');
+        if (!is_float($price)) throw new \Exception('Variable $price in  "' . __METHOD__ . '" should have float type.');
+        if (!is_int($digitsAfterDecimal) || $digitsAfterDecimal < 0) throw new \Exception('Variable $digitsAfterDecimal in  "' . __METHOD__ . '" should be an integer and greater than 0.');
+        return number_format($price, $digitsAfterDecimal, $decimalDivider, $thousandsSeparator);
+    }
+
+    static function formatFloat($price, $digitsAfterDecimal = 2, $decimalDivider = '.')
+    {
+        $thousandsSeparator = '';
+        if (!is_float($price)) throw new \Exception('Variable $price in  "' . __METHOD__ . '" should have float type.');
         if (!is_int($digitsAfterDecimal) || $digitsAfterDecimal < 0) throw new \Exception('Variable $digitsAfterDecimal in  "' . __METHOD__ . '" should be an integer and greater than 0.');
         return number_format($price, $digitsAfterDecimal, $decimalDivider, $thousandsSeparator);
     }
