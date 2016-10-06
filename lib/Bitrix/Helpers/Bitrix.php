@@ -13,7 +13,7 @@ class Bitrix
      * @param string $propertyCode
      * @return null
      */
-    static public function getIBlockElementById($id, $propertyCode = 'PREVIEW_TEXT')
+    public static function getIBlockElementById($id, $propertyCode = 'PREVIEW_TEXT')
     {
         if (!\CModule::IncludeModule("iblock")) return null;
         $res = \CIBlockElement::GetByID($id);
@@ -29,7 +29,7 @@ class Bitrix
      * @param string $propertyCode
      * @return string
      */
-    static public function getEditableIBlockElementById($IblockID, $id, $propertyCode = 'PREVIEW_TEXT')
+    public static function getEditableIBlockElementById($IblockID, $id, $propertyCode = 'PREVIEW_TEXT')
     {
         global $APPLICATION;
         ob_start();

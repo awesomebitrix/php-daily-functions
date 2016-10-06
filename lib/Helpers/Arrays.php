@@ -14,7 +14,7 @@ class Arrays
 
     const DEFAULT_KEY_SPLITTER = '.';
 
-    static public function init()
+    public static function init()
     {
         static::$sortOrders = [
             self::SORT_ORDER_DESC,
@@ -42,7 +42,7 @@ class Arrays
      * @return array
      * @throws \ErrorException
      */
-    static public function sortByInternalKeys(&$ar, $specialKey, $sortOrder = self::SORT_ORDER_ASC, $keySplitter = '.')
+    public static function sortByInternalKeys(&$ar, $specialKey, $sortOrder = self::SORT_ORDER_ASC, $keySplitter = '.')
     {
         static::init();
 
@@ -64,7 +64,7 @@ class Arrays
      * @return null|mixed - value by special key.
      * @throws \ErrorException
      */
-    static public function getValueBySpecialKey(&$ar, $specialKey, $keySplitter = '.')
+    public static function getValueBySpecialKey(&$ar, $specialKey, $keySplitter = '.')
     {
         static::init();
 
@@ -79,7 +79,7 @@ class Arrays
         return $ar;
     }
 
-    static public function setValueBySpecialKey(&$ar, $specialKey, $value, $keySplitter = '.')
+    public static function setValueBySpecialKey(&$ar, $specialKey, $value, $keySplitter = '.')
     {
         static::init();
 
@@ -95,7 +95,7 @@ class Arrays
         $ar = $value;
     }
 
-    static public function getAllValuesBySpecialKey(&$ar, $specialKey, $keySplitter = '.')
+    public static function getAllValuesBySpecialKey(&$ar, $specialKey, $keySplitter = '.')
     {
         static::init();
 

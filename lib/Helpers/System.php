@@ -18,7 +18,7 @@ class System
      *  ]
      * @throws \Exception
      */
-    static public function requireBasicHttpAuth($credentials = array())
+    public static function requireBasicHttpAuth($credentials = array())
     {
         if (!is_array($credentials)) throw new \Exception('Parameter $credentials in "' . __METHOD__ . '" should be an array.');
         $credentialsFound = false;
@@ -39,13 +39,13 @@ class System
         }
     }
 
-    static public function getMicrotimeFloat()
+    public static function getMicrotimeFloat()
     {
         list($usec, $sec) = explode(" ", microtime());
         return ((float)$usec + (float)$sec);
     }
 
-    static public function initProdDomains($prodDomains)
+    public static function initProdDomains($prodDomains)
     {
         if (($prodDomains !== null) && (is_array($prodDomains))) {
             static::$prodDomains = $prodDomains;
@@ -61,7 +61,7 @@ class System
      * @return bool
      * @throws \ErrorException
      */
-    static public function isProdEnvironment($prodDomains = null)
+    public static function isProdEnvironment($prodDomains = null)
     {
         return in_array($_SERVER['HTTP_HOST'], static::getProdDomains());
     }
@@ -69,7 +69,7 @@ class System
     /**
      * @return array
      */
-    static public function getProdDomains()
+    public static function getProdDomains()
     {
         if (static::$prodDomains === null) {
             throw new \ErrorException('Property $prodDomains is not initialized.');

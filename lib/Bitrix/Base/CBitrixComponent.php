@@ -44,6 +44,8 @@ abstract class CBitrixComponent extends \CBitrixComponent
      */
     protected $templatePage;
 
+    protected $disableComponentTemplate = false;
+
     final protected function executeBase()
     {
         $this->init();
@@ -288,7 +290,7 @@ abstract class CBitrixComponent extends \CBitrixComponent
      */
     public function showResult()
     {
-        $this->includeComponentTemplate($this->templatePage);
+        if (!$this->disableComponentTemplate) $this->includeComponentTemplate($this->templatePage);
     }
 
     /**
@@ -390,4 +392,13 @@ abstract class CBitrixComponent extends \CBitrixComponent
         return \CIBlockFormatProperties::DateFormat($format, MakeTimeStamp($date, \CSite::GetDateFormat()));
     }
 
+    /**
+     * @param boolean $val
+     */
+    public function setDisableComponentTemplate($val = true)
+    {
+        if ($val === false)
+            $this->disableComponentTemplate = false;
+        $this->disableComponentTemplate = true;
+    }
 }
