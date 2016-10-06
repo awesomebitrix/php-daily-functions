@@ -44,6 +44,9 @@ abstract class CBitrixComponent extends \CBitrixComponent
      */
     protected $templatePage;
 
+    /**
+     * @var bool - disables to include component template
+     */
     protected $disableComponentTemplate = false;
 
     final protected function executeBase()
