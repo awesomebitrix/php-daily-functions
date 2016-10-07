@@ -1,6 +1,6 @@
 #!/bin/bash
 # fast method to add changes to this repo
-TAG_NAME=v1.2.7
+TAG_NAME=v1.2.8
 COMMENT="new changes"
 if [[ "$@" != "" ]]; then
     COMMENT="$@"

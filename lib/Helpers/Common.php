@@ -97,6 +97,13 @@ class Common
         return number_format($price, $digitsAfterDecimal, $decimalDivider, $thousandsSeparator);
     }
 
+    /**
+     * @param float $price
+     * @param int $digitsAfterDecimal
+     * @param string $decimalDivider
+     * @return string
+     * @throws \Exception
+     */
     static function formatFloat($price, $digitsAfterDecimal = 2, $decimalDivider = '.')
     {
         $thousandsSeparator = '';
