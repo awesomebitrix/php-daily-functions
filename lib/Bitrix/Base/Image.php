@@ -2,8 +2,6 @@
 
 namespace bfday\PHPDailyFunctions\Bitrix\Base;
 
-use bfday\PHPDailyFunctions\Helpers\Debug;
-
 class Image
 {
     protected static $staticDataInitiated = false;

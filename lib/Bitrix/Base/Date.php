@@ -2,13 +2,12 @@
 
 namespace bfday\PHPDailyFunctions\Bitrix\Base;
 
-use bfday\PHPDailyFunctions\Helpers\Debug;
-
 class Date
 {
     protected static $staticDataInitiated = false;
     
     const DATE_FORMAT_COMMON_TILL_DAY = 'j F Y';
+    const DATE_FORMAT_COMMON_TILL_SECOND = 'j F Y HH:MI:SS';
     const DATE_FORMAT_COMMON_DOTTED = 'DD.MM.YYYY HH:MI:SS';
 
     protected static $dateFormats;
