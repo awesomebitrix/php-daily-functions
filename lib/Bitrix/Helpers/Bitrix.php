@@ -24,7 +24,7 @@ class Bitrix
     }
 
     /**
-     * ToDo: refactor needed.
+     * ToDo: refactor is needed.
      * @param $id
      * @param string $propertyCode
      * @return string

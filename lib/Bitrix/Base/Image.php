@@ -28,6 +28,18 @@ class Image
         return true;
     }
 
+    /**
+     * @param $fileArray
+     * @param $width
+     * @param $height
+     * @param int $resizeType
+     * @param bool $quality
+     * @param bool $isReturnSizes
+     * @param bool $filters
+     * @param bool $isImmediate
+     * @return bool|mixed
+     * @throws \Exception
+     */
     public static function getResized(
         $fileArray,
         $width,
@@ -67,7 +79,6 @@ class Image
                 $isImmediate,
                 $quality
         );
-        if ($res === false) return false;
         return $res;
     }
 
