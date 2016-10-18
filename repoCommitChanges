@@ -1,6 +1,6 @@
 #!/bin/bash
 # fast method to add changes to this repo
-TAG_NAME=v1.3.11
+TAG_NAME=v1.3.12
 COMMENT="Bitrix agent class added"
 if [[ "$@" != "" ]]; then
     COMMENT="$@"

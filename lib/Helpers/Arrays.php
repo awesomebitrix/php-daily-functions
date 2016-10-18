@@ -108,4 +108,28 @@ class Arrays
         }
         return $values;
     }
+
+    /**
+     * @param array $acceptor
+     * @param $needle
+     * @param bool $isKeyAsNeedle
+     * @param null $key
+     * @return bool
+     * @throws \ErrorException
+     */
+    public static function pushIfUnique(&$acceptor, $needle, $isKeyAsNeedle = false, &$key = null)
+    {
+        if (!is_array($acceptor)) throw new \ErrorException('$acceptor param must be an array type.');
+        if (!in_array($needle, $acceptor)) {
+            if ($isKeyAsNeedle) {
+                $acceptor[$needle] = $needle;
+            } elseif ($key !== null) {
+                $acceptor[$key] = $needle;
+            } else {
+                $acceptor[] = $needle;
+            }
+            return true;
+        }
+        return false;
+    }
 }
