@@ -110,18 +110,19 @@ class Arrays
     }
 
     /**
+     * Pushes $needle into $acceptor only if $needle unique against $acceptor. Returns true if push is OK. False - elsewhere.
+     *
      * @param array $acceptor
      * @param $needle
-     * @param bool $isKeyAsNeedle
      * @param null $key
      * @return bool
      * @throws \ErrorException
      */
-    public static function pushIfUnique(&$acceptor, $needle, $isKeyAsNeedle = false, &$key = null)
+    public static function pushIfUnique(&$acceptor, $needle, &$key = null)
     {
         if (!is_array($acceptor)) throw new \ErrorException('$acceptor param must be an array type.');
         if (!in_array($needle, $acceptor)) {
-            if ($isKeyAsNeedle) {
+            if ($key !== null && empty($key)) {
                 $acceptor[$needle] = $needle;
             } elseif ($key !== null) {
                 $acceptor[$key] = $needle;
