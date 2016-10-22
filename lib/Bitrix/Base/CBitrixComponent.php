@@ -50,7 +50,24 @@ abstract class CBitrixComponent extends \CBitrixComponent
     private $disableComponentTemplate = false;
 
     const SEPARATE_CACHE_FOR_EVERY_USER_FOLDER_PREFIX = 'user';
+    /**
+     * Creates additional cache folder for every user.
+     * Uses SEPARATE_CACHE_FOR_EVERY_USER_FOLDER_PREFIX to set prefix to that folder.
+     */
     private $isSeparateCacheForEveryUser = false;
+
+    /**
+     * Do drop tagged cache which applies inside [executeMain]?
+     * @var bool
+     */
+    private $isDropTaggedCache = false;
+
+    /**
+     * Array of TaggedCache tags.
+     *
+     * @var array
+     */
+    private $taggedCacheTags = [];
 
     final protected function executeBase()
     {
@@ -61,6 +78,26 @@ abstract class CBitrixComponent extends \CBitrixComponent
 
         if ($this->startCache()) {
             $this->executeMain();
+
+            if (defined('BX_COMP_MANAGED_CACHE')) {
+                if (empty($this->taggedCacheTags)) {
+                    if ($this->isDropTaggedCache) {
+                        Main\Application::getInstance()->getTaggedCache()->abortTagCache();
+                    }
+                } else {
+                    $taggedCache = Main\Application::getInstance()->getTaggedCache();
+                    if ($this->isDropTaggedCache) {
+                        $taggedCache->abortTagCache();
+                        $taggedCache->startTagCache($this->getCachePath());
+                    }
+                    foreach ($this->taggedCacheTags as $taggedCacheTag) {
+                        $taggedCache->registerTag($taggedCacheTag);
+                    }
+                    if ($this->isDropTaggedCache) {
+                        $taggedCache->endTagCache();
+                    }
+                }
+            }
 
             if ($this->cacheTemplate) {
                 $this->showResult();
@@ -78,7 +115,7 @@ abstract class CBitrixComponent extends \CBitrixComponent
     }
 
     /**
-     * Standart component execution function
+     * Standard component execution function
      *
      * @return array - result
      */
@@ -322,18 +359,6 @@ abstract class CBitrixComponent extends \CBitrixComponent
     }
 
     /**
-     * Register tag in cache
-     *
-     * @param string $tag Tag
-     */
-    public static function registerCacheTag($tag)
-    {
-        if ($tag) {
-            Main\Application::getInstance()->getTaggedCache()->registerTag($tag);
-        }
-    }
-
-    /**
      * Add additional ID to cache
      *
      * @param mixed $id
@@ -369,5 +394,25 @@ abstract class CBitrixComponent extends \CBitrixComponent
     public function setIsSeparateCacheForEveryUser($val = true)
     {
         $this->isSeparateCacheForEveryUser = $val;
+    }
+
+    /**
+     * @param boolean $val
+     */
+    public function setIsDropTaggedCache($val = true)
+    {
+        $this->isDropTaggedCache = $val;
+    }
+
+    /**
+     * @param $tag string
+     * @param bool $isDropOtherTags
+     */
+    public function addTaggedCacheTag($tag, $isDropOtherTags = false)
+    {
+        if ($isDropOtherTags) $this->setIsDropTaggedCache();
+        if (!in_array($tag, $this->taggedCacheTags)) {
+            $this->taggedCacheTags[] = $tag;
+        }
     }
 }
