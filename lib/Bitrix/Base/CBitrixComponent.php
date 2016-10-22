@@ -47,13 +47,15 @@ abstract class CBitrixComponent extends \CBitrixComponent
     /**
      * @var bool - disables to include component template
      */
-    protected $disableComponentTemplate = false;
+    private $disableComponentTemplate = false;
+
+    const SEPARATE_CACHE_FOR_EVERY_USER_FOLDER_PREFIX = 'user';
+    private $isSeparateCacheForEveryUser = false;
 
     final protected function executeBase()
     {
         $this->init();
         $this->includeModules();
-        $this->checkParams();
         $this->startAjax();
         $this->executeProlog();
 
@@ -125,7 +127,7 @@ abstract class CBitrixComponent extends \CBitrixComponent
      */
     public function startCache()
     {
-        global $USER;
+        global $USER, $CACHE_MANAGER;
 
         if ($this->arParams['CACHE_TYPE'] && $this->arParams['CACHE_TYPE'] !== 'N' && $this->arParams['CACHE_TIME'] > 0) {
             if ($this->templatePage) {
@@ -136,6 +138,20 @@ abstract class CBitrixComponent extends \CBitrixComponent
                 $this->cacheAdditionalId[] = $USER->GetGroups();
             }
 
+            // logic for separating caches of users from each other
+            if ($this->isSeparateCacheForEveryUser) {
+                $dir = DIRECTORY_SEPARATOR . static::SEPARATE_CACHE_FOR_EVERY_USER_FOLDER_PREFIX;
+                if ($USER->IsAuthorized()) {
+                    $dir .= $USER->GetID();
+                }
+                if ($this->cacheDir === false) {
+                    $this->cacheDir = $CACHE_MANAGER->GetCompCachePath($this->getRelativePath()) . $dir;
+                } else {
+                    $this->cacheDir .= $dir;
+                }
+                $this->addCacheAdditionalId($dir);
+            }
+
             if ($this->startResultCache($this->arParams['CACHE_TIME'], $this->cacheAdditionalId, $this->cacheDir)) {
                 return true;
             } else {
@@ -144,66 +160,6 @@ abstract class CBitrixComponent extends \CBitrixComponent
         }
 
         return true;
-    }
-
-    /**
-     * ToDo: Checks arParams according to this array.
-     * $this->checkParams must have corresponding structure:
-     * [
-     *      'arParam_CODE' => [
-     *          'type' => 'int|string|array',
-     *
-     *      ],
-     * ]
-     *
-     * @throws \Bitrix\Main\ArgumentNullException
-     */
-    private function checkParams()
-    {
-        if ($this->checkParams)
-        {
-            foreach ($this->checkParams as $key => $param) {
-                $exception = false;
-
-                switch ($param['type']) {
-                    case 'int':
-
-                        if (!is_numeric($this->arParams[$key]) && $param['error'] !== false) {
-                            $exception = new Main\ArgumentTypeException($key, 'integer');
-                        } else {
-                            $this->arParams[$key] = intval($this->arParams[$key]);
-                        }
-
-                        break;
-
-                    case 'string':
-
-                        $this->arParams[$key] = htmlspecialchars(trim($this->arParams[$key]));
-
-                        if (strlen($this->arParams[$key]) <= 0 && $param['error'] !== false) {
-                            $exception = new Main\ArgumentNullException($key);
-                        }
-
-                        break;
-
-                    case 'array':
-
-                        if (!is_array($this->arParams[$key])) {
-                            if ($param['error'] === false) {
-                                $this->arParams[$key] = array($this->arParams[$key]);
-                            } else {
-                                $exception = new Main\ArgumentTypeException($key, 'array');
-                            }
-                        }
-
-                        break;
-
-                    default:
-                        $exception = new Main\NotSupportedException('Not supported type of parameter for automated checking');
-                        break;
-                }
-            }
-        }
     }
 
     /**
@@ -373,7 +329,7 @@ abstract class CBitrixComponent extends \CBitrixComponent
     public static function registerCacheTag($tag)
     {
         if ($tag) {
-            Application::getInstance()->getTaggedCache()->registerTag($tag);
+            Main\Application::getInstance()->getTaggedCache()->registerTag($tag);
         }
     }
 
@@ -403,5 +359,15 @@ abstract class CBitrixComponent extends \CBitrixComponent
         if ($val === false)
             $this->disableComponentTemplate = false;
         $this->disableComponentTemplate = true;
+    }
+
+    /**
+     * Use it before [$this->startCache].
+     *
+     * @param boolean $val
+     */
+    public function setIsSeparateCacheForEveryUser($val = true)
+    {
+        $this->isSeparateCacheForEveryUser = $val;
     }
 }
