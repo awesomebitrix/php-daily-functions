@@ -2,6 +2,8 @@
 
 namespace bfday\PHPDailyFunctions\Bitrix\Base;
 
+use Bitrix\Main\Loader;
+
 class Date
 {
     protected static $staticDataInitiated = false;
@@ -9,6 +11,7 @@ class Date
     const DATE_FORMAT_COMMON_TILL_DAY = 'j F Y';
     const DATE_FORMAT_COMMON_TILL_SECOND = 'j F Y HH:MI:SS';
     const DATE_FORMAT_COMMON_DOTTED = 'DD.MM.YYYY HH:MI:SS';
+    const DATE_FORMAT_DATABASE = 'Y-m-d H:i:s';
 
     protected static $dateFormats;
 
@@ -19,6 +22,7 @@ class Date
      */
     protected static function init()
     {
+        Loader::includeModule('iblock');
         if (static::$staticDataInitiated) {
             return true;
         } else {
@@ -26,7 +30,9 @@ class Date
         }
         static::$dateFormats = [
             static::DATE_FORMAT_COMMON_TILL_DAY,
+            static::DATE_FORMAT_COMMON_TILL_SECOND,
             static::DATE_FORMAT_COMMON_DOTTED,
+            static::DATE_FORMAT_DATABASE,
         ];
         return true;
     }
