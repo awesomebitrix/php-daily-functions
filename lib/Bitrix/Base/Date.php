@@ -12,6 +12,7 @@ class Date
     const DATE_FORMAT_COMMON_TILL_SECOND = 'j F Y HH:MI:SS';
     const DATE_FORMAT_COMMON_DOTTED = 'DD.MM.YYYY HH:MI:SS';
     const DATE_FORMAT_DATABASE = 'Y-m-d H:i:s';
+    const DATE_FORMAT_IBLOCK_ELEMENT = 'j.F.Y HH:MI:SS';
 
     protected static $dateFormats;
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 # fast method to add changes to this repo
 TAG_NAME=v1.4.2
-COMMENT="Agent new functionality + Debug extended functionality"
+COMMENT="DATE::DATE_FORMAT_IBLOCK_ELEMENT added"
 if [[ "$@" != "" ]]; then
     COMMENT="$@"
 fi
