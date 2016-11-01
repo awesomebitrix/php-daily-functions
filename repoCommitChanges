@@ -1,7 +1,7 @@
 #!/bin/bash
 # fast method to add changes to this repo
-TAG_NAME=v1.4.3
-COMMENT="DATE::DATE_FORMAT_IBLOCK_ELEMENT_PROPERTY added"
+TAG_NAME=v1.4.4
+COMMENT="Condition to not show error to regular user"
 if [[ "$@" != "" ]]; then
     COMMENT="$@"
 fi

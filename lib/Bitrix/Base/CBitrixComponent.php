@@ -69,6 +69,8 @@ abstract class CBitrixComponent extends \CBitrixComponent
      */
     private $taggedCacheTags = [];
 
+    private $isShowExceptionMsgToUser = false;
+
     final protected function executeBase()
     {
         $this->init();
@@ -311,10 +313,13 @@ abstract class CBitrixComponent extends \CBitrixComponent
     protected function catchException(\Exception $exception)
     {
         $this->abortCache();
-        if ($GLOBALS['USER']->IsAdmin())
+        if ($GLOBALS['USER']->IsAdmin()) {
             $this->showExceptionAdmin($exception);
-        else
-            $this->showExceptionUser($exception);
+        } else {
+            if ($this->isShowExceptionMsgToUser) {
+                $this->showExceptionUser($exception);
+            }
+        }
     }
 
     /**
@@ -414,5 +419,14 @@ abstract class CBitrixComponent extends \CBitrixComponent
         if (!in_array($tag, $this->taggedCacheTags)) {
             $this->taggedCacheTags[] = $tag;
         }
+    }
+
+    /**
+     * Show or not exception messages to regular user.
+     * @param bool $val
+     */
+    public function setIsShowExceptionMsgToUser($val = true)
+    {
+        $this->isShowExceptionMsgToUser = $val;
     }
 }
