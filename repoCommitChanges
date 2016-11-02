@@ -1,7 +1,7 @@
 #!/bin/bash
 # fast method to add changes to this repo
-TAG_NAME=v1.4.5
-COMMENT="Condition to not show error to regular user"
+TAG_NAME=v1.4.6
+COMMENT="Singleton train + IBlock helper"
 if [[ "$@" != "" ]]; then
     COMMENT="$@"
 fi
