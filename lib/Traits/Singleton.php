@@ -6,6 +6,9 @@ trait Singleton
 {
     private static $instance;
 
+    /**
+     * @return object
+     */
     public static function getInstance()
     {
         if (!isset(self::$instance)) {
