@@ -9,7 +9,7 @@ use bfday\PHPDailyFunctions\Traits\Singleton;
  * Class EnvironmentHelper
  * @package bfday\PHPDailyFunctions\Helpers
  */
-class EnvironmentHelper
+class Environment
 {
     use Singleton;
 
