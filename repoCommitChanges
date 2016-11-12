@@ -1,7 +1,7 @@
 #!/bin/bash
 # fast method to add changes to this repo
-TAG_NAME=v1.4.7
-COMMENT="Singleton trait changes"
+TAG_NAME=v1.4.8
+COMMENT="Agent new functionality"
 if [[ "$@" != "" ]]; then
     COMMENT="$@"
 fi

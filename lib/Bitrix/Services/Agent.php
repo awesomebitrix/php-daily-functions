@@ -20,17 +20,27 @@ class Agent
     protected static function exceptionHandler($exception){}
 
     /**
+     * If this function returns ===true then agent executes. If other - just quits.
+     * @return bool
+     */
+    protected static function isOn() {
+        return true;
+    }
+
+    /**
      * Call this to start agent tasks.
      *
      * @return string
      */
     final public static function run()
     {
-        try {
-            static::init();
-            static::processor();
-        } catch (\Exception $e) {
-            static::exceptionHandler($e);
+        if (static::isOn() === true) {
+            try {
+                static::init();
+                static::processor();
+            } catch (\Exception $e) {
+                static::exceptionHandler($e);
+            }
         }
         return '\\' . get_called_class() . '::run();';
     }
