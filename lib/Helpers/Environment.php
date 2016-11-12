@@ -5,7 +5,7 @@ namespace bfday\PHPDailyFunctions\Helpers;
 use bfday\PHPDailyFunctions\Traits\Singleton;
 
 /**
- * @method static|EnvironmentHelper getInstance()
+ * @method static|Environment getInstance()
  * Class EnvironmentHelper
  * @package bfday\PHPDailyFunctions\Helpers
  */
@@ -42,11 +42,11 @@ class Environment
      *      PARAM_NAME_1 => VAL_1,
      *      ...
      * ]
-     * if VAL_X is array, so system assumes that VAL_X can have one that values.
+     * if VAL_X is array, so system assumes that VAL_X can have one that values, OR condition.
      * Used to consist of HOSTNAME and PWD params:
      * [
      *      'HOSTNAME' => 'my.host.name.com',
-     *      'PWD' => '/path/to/web/available/dir',
+     *      'PWD'|'DOCUMENT_ROOT' => '/path/to/web/available/dir',
      * ]
      */
     protected $serverParamsToCheck;
@@ -79,22 +79,45 @@ class Environment
             $this->serverParamsToCheck = $serverParamsToCheck;
         }
 
-        $this->usedCheckMethod = static::CHECK_METHOD__SERVER_PARAMS;
-        foreach ($serverParamsToCheck as $paramKey => $paramVal) {
-            if ($_SERVER[$paramKey] != $paramVal) {
-                $this->isProd = false;
-                return true;
+        if ($this->checkServerParams() === false) {
+            $this->isProd = false;
+            return false;
+        };
+
+        if ($this->checkServerHost() === false) {
+            $this->isProd = false;
+            return false;
+        };
+
+        $this->isProd = true;
+        return true;
+    }
+
+    protected function checkServerParams()
+    {
+        foreach ($this->serverParamsToCheck as $paramKey => $paramVal) {
+            if (isset($_SERVER[$paramKey])) {
+                $this->usedCheckMethod = $this->usedCheckMethod | static::CHECK_METHOD__SERVER_PARAMS;
+                if (!is_array($paramVal)) {
+                    if ($_SERVER[$paramKey] != $paramVal) {
+                        return false;
+                    }
+                } elseif (!in_array($_SERVER[$paramKey], $paramVal)) {
+                    return false;
+                }
             }
         }
+        return true;
+    }
 
+    protected function checkServerHost()
+    {
         if (isset($_SERVER['HTTP_HOST'])) {
             $this->usedCheckMethod = $this->usedCheckMethod | static::CHECK_METHOD__HTTP_HOST;
             if (!in_array($_SERVER['HTTP_HOST'], $this->serverHosts)) {
-                $this->isProd = false;
-                return true;
+                return false;
             }
         }
-        $this->isProd = true;
         return true;
     }
 
