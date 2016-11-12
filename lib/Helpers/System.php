@@ -7,7 +7,9 @@ namespace bfday\PHPDailyFunctions\Helpers;
  */
 class System
 {
+    static protected $isProdEnvironment;
     static protected $prodDomains;
+    static protected $additionalProdParams;
     /**
      * Basic auth like php function
      *
@@ -45,9 +47,15 @@ class System
         return ((float)$usec + (float)$sec);
     }
 
-    public static function initProdDomains($prodDomains)
+    /**
+     * @param array $prodDomains
+     * @param array $additionalProdParams
+     * @throws \ErrorException
+     */
+    public static function initProdDomains($prodDomains, $additionalProdParams)
     {
         if (($prodDomains !== null) && (is_array($prodDomains))) {
+            if ($additionalProdParams !== null)
             static::$prodDomains = $prodDomains;
         } else {
             throw new \ErrorException('Property $prodDomains must be of array type.');
@@ -56,12 +64,10 @@ class System
 
     /**
      * Checks if this environment is production environment.
-     *
-     * @param null|array $prodDomains
      * @return bool
-     * @throws \ErrorException
+     * @internal param array|null $prodDomains
      */
-    public static function isProdEnvironment($prodDomains = null)
+    public static function isProdEnvironment()
     {
         return in_array($_SERVER['HTTP_HOST'], static::getProdDomains());
     }
