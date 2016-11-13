@@ -49,13 +49,11 @@ class System
 
     /**
      * @param array $prodDomains
-     * @param array $additionalProdParams
      * @throws \ErrorException
      */
-    public static function initProdDomains($prodDomains, $additionalProdParams)
+    public static function initProdDomains($prodDomains)
     {
         if (($prodDomains !== null) && (is_array($prodDomains))) {
-            if ($additionalProdParams !== null)
             static::$prodDomains = $prodDomains;
         } else {
             throw new \ErrorException('Property $prodDomains must be of array type.');
