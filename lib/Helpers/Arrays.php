@@ -133,4 +133,18 @@ class Arrays
         }
         return false;
     }
+
+    public static function fetchOnlyKeys(&$source, $onlyKeys = []) {
+        if (!is_array($source) || !is_array($onlyKeys)) {
+            throw new \Exception('params have to be an array type');
+        }
+        return array_intersect_key($source, array_flip($onlyKeys));
+    }
+
+    public static function fetchWithoutKeys(&$source, $excludedKeys = []) {
+        if (!is_array($source) || !is_array($excludedKeys)) {
+            throw new \Exception('params have to be an array type');
+        }
+        return array_intersect_key($source, array_diff_key($source, array_flip($excludedKeys)));
+    }
 }
