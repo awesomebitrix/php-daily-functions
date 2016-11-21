@@ -134,6 +134,14 @@ class Arrays
         return false;
     }
 
+    /**
+     * Creates new array from $source by leaving only $onlyKeys keys
+     *
+     * @param array $source
+     * @param array $onlyKeys
+     * @return array
+     * @throws \Exception
+     */
     public static function fetchOnlyKeys(&$source, $onlyKeys = []) {
         if (!is_array($source) || !is_array($onlyKeys)) {
             throw new \Exception('params have to be an array type');
@@ -141,6 +149,14 @@ class Arrays
         return array_intersect_key($source, array_flip($onlyKeys));
     }
 
+    /**
+     * Creates new array from $source by excluding $excludedKeys keys
+     *
+     * @param array$source
+     * @param array $excludedKeys
+     * @return array
+     * @throws \Exception
+     */
     public static function fetchWithoutKeys(&$source, $excludedKeys = []) {
         if (!is_array($source) || !is_array($excludedKeys)) {
             throw new \Exception('params have to be an array type');
