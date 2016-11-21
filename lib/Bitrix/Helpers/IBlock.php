@@ -8,7 +8,7 @@ use Bitrix\Main\Entity\Query;
 /**
  * IBlock helper to help in common routines.
  *
- * @method IBlock getInstance()
+ * @method static|IBlock getInstance()
  */
 class IBlock
 {
