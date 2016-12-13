@@ -179,7 +179,7 @@ class Arrays
         }
         $diff = array_diff(array_keys($ar), $keys);
         if (count($diff)) {
-            return $diff; //array_diff(array_keys($ar), $keys);
+            return $diff;
         } else {
             return true;
         }
