@@ -169,16 +169,17 @@ class Arrays
      *
      * @param array $ar - array to examine
      * @param array $keys - array keys to examine
-     * @return bool
+     * @param bool $isIgnoreCase
+     * @return bool|array - returns required keys
      * @throws \Exception
      */
-    public static function consistFromKeys($ar, $keys) {
+    public static function consistOfKeys($ar, $keys, $isIgnoreCase = false) {
         if (!is_array($ar) || !is_array($keys)) {
             throw new \Exception('Params must have array type.');
         }
-        $diff = array_diff($keys, array_keys($ar));
+        $diff = array_diff(array_keys($ar), $keys);
         if (count($diff)) {
-            return false;
+            return $diff; //array_diff(array_keys($ar), $keys);
         } else {
             return true;
         }
@@ -189,18 +190,19 @@ class Arrays
      *
      * @param array $ar - array to examine
      * @param array $keys - array keys to examine
-     * @return bool
+     * @param bool $isIgnoreCase
+     * @return bool|array - returns required keys
      * @throws \Exception
      */
-    public static function containsKeys($ar, $keys) {
+    public static function requireKeys($ar, $keys, $isIgnoreCase = false) {
         if (!is_array($ar) || !is_array($keys)) {
             throw new \Exception('Params must have array type.');
         }
-        $diff = array_diff(array_keys($ar), $keys);
-        if (count($diff) <= 0) {
-            return true;
+        $diff = array_diff($keys, array_keys($ar));
+        if (count($diff)) {
+            return $diff;
         } else {
-            return false;
+            return true;
         }
     }
 }
