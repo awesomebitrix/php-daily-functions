@@ -165,10 +165,10 @@ class Arrays
     }
 
     /**
-     * Checks array $ar that he consist only of keys from $keys
+     * Checks array $ar that he has all keys from $keys
      *
-     * @param array $ar
-     * @param array $keys
+     * @param array $ar - array to examine
+     * @param array $keys - array keys to examine
      * @return bool
      * @throws \Exception
      */
@@ -181,6 +181,26 @@ class Arrays
             return false;
         } else {
             return true;
+        }
+    }
+
+    /**
+     * Checks array $ar that he contains all keys from $keys
+     *
+     * @param array $ar - array to examine
+     * @param array $keys - array keys to examine
+     * @return bool
+     * @throws \Exception
+     */
+    public static function containsKeys($ar, $keys) {
+        if (!is_array($ar) || !is_array($keys)) {
+            throw new \Exception('Params must have array type.');
+        }
+        $diff = array_diff(array_keys($ar), $keys);
+        if (count($diff) <= 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 }
