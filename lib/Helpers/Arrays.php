@@ -163,4 +163,24 @@ class Arrays
         }
         return array_intersect_key($source, array_diff_key($source, array_flip($excludedKeys)));
     }
+
+    /**
+     * Checks array $ar that he consist only of keys from $keys
+     *
+     * @param array $ar
+     * @param array $keys
+     * @return bool
+     * @throws \Exception
+     */
+    public static function consistFromKeys($ar, $keys) {
+        if (!is_array($ar) || !is_array($keys)) {
+            throw new \Exception('Params must have array type.');
+        }
+        $diff = array_diff($keys, array_keys($ar));
+        if (count($diff)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

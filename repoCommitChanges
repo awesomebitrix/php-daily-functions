@@ -1,7 +1,7 @@
 #!/bin/bash
 # fast method to add changes to this repo
-TAG_NAME=v1.5.0
-COMMENT="New array function [Array::fetchOnlyKeys] and [Array::fetchWithoutKeys]"
+TAG_NAME=v1.6.0
+COMMENT="[Array::consistFromKeys] added"
 if [[ "$@" != "" ]]; then
     COMMENT="$@"
 fi

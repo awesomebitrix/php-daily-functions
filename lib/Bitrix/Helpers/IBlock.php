@@ -17,7 +17,7 @@ class IBlock
     /**
      * Returns IBlocks IDs by their codes. Uses Bitrix D7
      *
-     * ToDo: cache result?
+     * ToDo: cache results in memory?
      * @param $codes
      * @return array
      * @throws \Exception
