@@ -2,6 +2,7 @@
 
 namespace bfday\PHPDailyFunctions\Bitrix\Helpers;
 
+use bfday\PHPDailyFunctions\Helpers\Debug;
 use bfday\PHPDailyFunctions\Traits\Singleton;
 use Bitrix\Iblock\IblockTable;
 use Bitrix\Main\Entity\Query;
@@ -24,7 +25,7 @@ class IBlock
 
     public function __construct()
     {
-        $this->arIBlockCodesIDs = [];
+        $this->dropCache();
     }
 
     /**
@@ -85,6 +86,13 @@ class IBlock
             }
         }
 
+        Debug::logVar($arIBlockCodesIDs);
+
         return $arIBlockCodesIDs;
+    }
+
+    public function dropCache()
+    {
+        $this->arIBlockCodesIDs = [];
     }
 }
