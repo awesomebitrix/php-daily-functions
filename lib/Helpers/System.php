@@ -101,7 +101,7 @@ class System
                 continue;
             }
 
-            if (!deleteDirectory($path . DIRECTORY_SEPARATOR . $item)) {
+            if (!self::deleteDirectory($path . DIRECTORY_SEPARATOR . $item)) {
                 return false;
             }
 
