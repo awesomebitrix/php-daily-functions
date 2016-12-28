@@ -3,6 +3,7 @@ namespace bfday\PHPDailyFunctions\Bitrix\Commands\IBlock\Import;
 
 use bfday\PHPDailyFunctions\Bitrix\Base\File;
 use bfday\PHPDailyFunctions\Bitrix\Helpers\IBlock;
+use bfday\PHPDailyFunctions\Helpers\System;
 use Bitrix\Main\Entity\Query;
 use Bitrix\Main\Loader;
 use Bitrix\Main\SiteTable;
@@ -194,7 +195,8 @@ class FromXML extends AbstractCommand
                                     $output->writeln("File doesn't exists: " . $fileAbsPath);
                                 }
                                 if (file_exists($mediaDirectory) && is_dir($mediaDirectory)) {
-                                    if (rmdir($mediaDirectory)) {
+
+                                    if (System::deleteDirectory($mediaDirectory)) {
                                         $output->writeln('Successfully deleled: ' . $mediaDirectory);
                                     } else {
                                         $output->writeln('Error occur while deleting: ' . $mediaDirectory);

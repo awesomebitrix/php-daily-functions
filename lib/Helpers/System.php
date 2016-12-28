@@ -80,4 +80,33 @@ class System
         }
         return self::$prodDomains;
     }
+
+    /**
+     * Deletes directory recursievely.
+     *
+     * @param $path
+     * @return bool
+     */
+    function deleteDirectory($path) {
+        if (!file_exists($path)) {
+            return true;
+        }
+
+        if (!is_dir($path)) {
+            return unlink($path);
+        }
+
+        foreach (scandir($path) as $item) {
+            if ($item == '.' || $item == '..') {
+                continue;
+            }
+
+            if (!deleteDirectory($path . DIRECTORY_SEPARATOR . $item)) {
+                return false;
+            }
+
+        }
+
+        return rmdir($path);
+    }
 }
