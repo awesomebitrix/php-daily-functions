@@ -32,7 +32,7 @@ class IBlock
      *
      * ToDo: cache results in memory?
      * @param $codes array|string
-     * @return array
+     * @return array - of string of string|bool
      * @throws \Exception
      */
     public function getIBlockIDsByCodes($codes)
