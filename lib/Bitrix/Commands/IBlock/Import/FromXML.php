@@ -1,6 +1,7 @@
 <?
 namespace bfday\PHPDailyFunctions\Bitrix\Commands\IBlock\Import;
 
+use bfday\PHPDailyFunctions\Bitrix\Base\File;
 use bfday\PHPDailyFunctions\Bitrix\Helpers\IBlock;
 use Bitrix\Main\Entity\Query;
 use Bitrix\Main\Loader;
@@ -58,9 +59,9 @@ class FromXML extends AbstractCommand
     const OPTION__IMPORT_SUCCESSFULL_ACTION              = "import-successfull-action";
     const OPTION__IMPORT_SUCCESSFULL_ACTION_SHORT        = 'a';
     const OPTION__IMPORT_SUCCESSFULL_ACTION__DESCRIPTION = "What to do when import finished successfully.";
-    const IMPORT_SUCCESSFULL_ACTION__DO_NOTHING          = 'N';
-    const IMPORT_SUCCESSFULL_ACTION__DO_RENAME           = 'R';
-    const IMPORT_SUCCESSFULL_ACTION__DO_DELETE           = 'D';
+    const IMPORT_SUCCESSFULL_ACTION__DO_NOTHING          = 'n';
+    const IMPORT_SUCCESSFULL_ACTION__DO_RENAME           = 'r';
+    const IMPORT_SUCCESSFULL_ACTION__DO_DELETE           = 'd';
 
     // automation
     /*
@@ -140,7 +141,7 @@ class FromXML extends AbstractCommand
         ]);
 
         $on = 'OPTION__IMPORT_SUCCESSFULL_ACTION';
-        $elementAction = $this->checkAndGetOptionValue($input, $on, [
+        $importSuccessfullAction = $this->checkAndGetOptionValue($input, $on, [
             static::IMPORT_SUCCESSFULL_ACTION__DO_NOTHING,
             static::IMPORT_SUCCESSFULL_ACTION__DO_RENAME,
             static::IMPORT_SUCCESSFULL_ACTION__DO_DELETE,
@@ -172,6 +173,36 @@ class FromXML extends AbstractCommand
                             $output->writeln("File ({$file}) not imported. Error reported: " . $res);
                         } else {
                             $output->writeln("File ({$file}) successfully imported.");
+                        }
+
+                        switch ($importSuccessfullAction) {
+                            case static::IMPORT_SUCCESSFULL_ACTION__DO_NOTHING:
+                                break;
+                            case static::IMPORT_SUCCESSFULL_ACTION__DO_RENAME:
+                                // ToDo: rename logic
+                                break;
+                            case static::IMPORT_SUCCESSFULL_ACTION__DO_DELETE:
+                                $output->writeln('Started deleting of imported resources.');
+                                $mediaDirectory = dirname($fileAbsPath) . DIRECTORY_SEPARATOR . basename($fileAbsPath, '.xml') . '_files';
+                                if (file_exists($fileAbsPath) && is_file($fileAbsPath)) {
+                                    if (unlink($fileAbsPath)) {
+                                        $output->writeln('Successfully deleled: ' . $fileAbsPath);
+                                    } else {
+                                        $output->writeln('Error occur while deleting: ' . $fileAbsPath);
+                                    }
+                                } else {
+                                    $output->writeln("File doesn't exists: " . $fileAbsPath);
+                                }
+                                if (file_exists($mediaDirectory) && is_dir($mediaDirectory)) {
+                                    if (rmdir($mediaDirectory)) {
+                                        $output->writeln('Successfully deleled: ' . $mediaDirectory);
+                                    } else {
+                                        $output->writeln('Error occur while deleting: ' . $mediaDirectory);
+                                    }
+                                } else {
+                                    $output->writeln("Directory doesn't exists: " . $mediaDirectory);
+                                }
+                                break;
                         }
                     } else {
                         $output->writeln("File ({$file}) doesnt't exists. Skipped.");
