@@ -195,7 +195,6 @@ class FromXML extends AbstractCommand
                                     $output->writeln("File doesn't exists: " . $fileAbsPath);
                                 }
                                 if (file_exists($mediaDirectory) && is_dir($mediaDirectory)) {
-
                                     if (System::deleteDirectory($mediaDirectory)) {
                                         $output->writeln('Successfully deleled: ' . $mediaDirectory);
                                     } else {
