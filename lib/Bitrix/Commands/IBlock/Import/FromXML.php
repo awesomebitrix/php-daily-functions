@@ -216,7 +216,7 @@ class FromXML extends AbstractCommand
                     } else {
                         $output->writeln("File ({$file}) doesn't exists. Skipped.");
                     }
-                    $output->writeln("Time elapsed: " . $executionTimeMeasurer->getTimestampDiff());
+                    $output->writeln("Time elapsed: " . $this->executionTimeMeasurer->getTimestampDiff());
                 }
                 break;
             case Defaults::WORK_MODE__DIRECTORY:
