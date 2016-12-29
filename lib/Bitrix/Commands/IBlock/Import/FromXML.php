@@ -3,6 +3,7 @@ namespace bfday\PHPDailyFunctions\Bitrix\Commands\IBlock\Import;
 
 use bfday\PHPDailyFunctions\Bitrix\Base\File;
 use bfday\PHPDailyFunctions\Bitrix\Helpers\IBlock;
+use bfday\PHPDailyFunctions\Helpers\ExecTimeMeasurement;
 use bfday\PHPDailyFunctions\Helpers\System;
 use Bitrix\Main\Entity\Query;
 use Bitrix\Main\Loader;
@@ -90,6 +91,8 @@ class FromXML extends AbstractCommand
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
+        $executionTimeMeasurer = new ExecTimeMeasurement();
+
         $on = 'OPTION__IMPORT_DIR';
         $importDir = $this->checkAndGetOptionValue($input, $on);
 
@@ -196,7 +199,7 @@ class FromXML extends AbstractCommand
                                 }
                                 if (file_exists($mediaDirectory) && is_dir($mediaDirectory)) {
                                     if (System::deleteDirectory($mediaDirectory)) {
-                                        $output->writeln('Successfully deleled: ' . $mediaDirectory);
+                                        $output->writeln('Successfully deleted: ' . $mediaDirectory);
                                     } else {
                                         $output->writeln('Error occur while deleting: ' . $mediaDirectory);
                                     }
@@ -208,6 +211,7 @@ class FromXML extends AbstractCommand
                     } else {
                         $output->writeln("File ({$file}) doesn't exists. Skipped.");
                     }
+                    $output->writeln("Time elapsed: " . $executionTimeMeasurer->getTimestampDiff());
                 }
                 break;
             case Defaults::WORK_MODE__DIRECTORY:
@@ -218,7 +222,7 @@ class FromXML extends AbstractCommand
                 throw new \Exception("Not supported option value ({$on} = $mode).");
         }
 
-        $output->writeln("Import finished.");
+        $output->writeln("Import finished. Exec time: " . $executionTimeMeasurer->getTimestampDiffUpdate());
     }
 
     /**
