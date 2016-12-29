@@ -65,6 +65,12 @@ class FromXML extends AbstractCommand
     const IMPORT_SUCCESSFUL_ACTION__DO_RENAME           = 'r';
     const IMPORT_SUCCESSFUL_ACTION__DO_DELETE           = 'd';
 
+    // supportive
+    /**
+     * @var ExecTimeMeasurement
+     */
+    protected $executionTimeMeasurer;
+
     // automation
     /*
      * ToDo: automation such detecting IBlock type and site id by filename
@@ -72,6 +78,7 @@ class FromXML extends AbstractCommand
 
     protected function configure()
     {
+        $this->executionTimeMeasurer = new ExecTimeMeasurement();
         $this
             ->setName('import:IBlocksFromXML')
             // template string
@@ -91,8 +98,6 @@ class FromXML extends AbstractCommand
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $executionTimeMeasurer = new ExecTimeMeasurement();
-
         $on = 'OPTION__IMPORT_DIR';
         $importDir = $this->checkAndGetOptionValue($input, $on);
 
@@ -222,7 +227,7 @@ class FromXML extends AbstractCommand
                 throw new \Exception("Not supported option value ({$on} = $mode).");
         }
 
-        $output->writeln("Import finished. Exec time: " . $executionTimeMeasurer->getTimestampDiffUpdate());
+        $output->writeln("Import finished. Exec time: " . $this->executionTimeMeasurer->getTimestampDiff());
     }
 
     /**
