@@ -8,7 +8,7 @@ namespace bfday\PHPDailyFunctions\Helpers;
 class ExecTimeMeasurement
 {
     /**
-     * @var
+     * @var float - timestamp of routine start
      */
     private $timestamp;
     
@@ -18,7 +18,7 @@ class ExecTimeMeasurement
     }
 
     /**
-     * Initializing or updates timestamp for logging time points.
+     * Initializing or updates timestamp for logging time points
      */
     public function updateTimestamp()
     {
@@ -26,7 +26,7 @@ class ExecTimeMeasurement
     }
 
     /**
-     * @return mixed - current timestamp minus reserved.
+     * @return mixed - current timestamp minus reserved
      */
     public function getTimestampDiff()
     {
@@ -34,7 +34,7 @@ class ExecTimeMeasurement
     }
 
     /**
-     * @return mixed - returns current timestamp minus reserved then updates timestamp to current.
+     * @return mixed - current timestamp minus reserved and updates start timestamp to current time
      */
     public function getTimestampDiffUpdate()
     {
