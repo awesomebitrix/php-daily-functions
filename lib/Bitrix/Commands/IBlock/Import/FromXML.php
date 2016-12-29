@@ -36,11 +36,12 @@ class FromXML extends AbstractCommand
 
     const OPTION__FILES              = 'files';
     const OPTION__FILES_SHORT        = 'f';
-    const OPTION__FILES__DESCRIPTION = "Names of files that should be imported. Use semicolon to separate names. Depends on '--mode'";
+    const OPTION__FILES__DESCRIPTION = "Names of file(s) that should be imported. Uses relative path using [importDir] as base.
+        Use semicolon to separate names.";
 
     const OPTION__FILES_EXCLUDED              = "files-excluded";
     const OPTION__FILES_EXCLUDED_SHORT        = "e";
-    const OPTION__FILES_EXCLUDED__DESCRIPTION = "Files that have to be excluded from import. Use semicolon to separate names.";
+    const OPTION__FILES_EXCLUDED__DESCRIPTION = "File(s) that have to be excluded from import. Use semicolon to separate names.";
 
     const OPTION__SITE_ID              = "site-id";
     const OPTION__SITE_ID_SHORT        = 's';
