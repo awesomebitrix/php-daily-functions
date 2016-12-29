@@ -57,12 +57,12 @@ class FromXML extends AbstractCommand
     const OPTION__IMPORT_ACTION__ELEMENT_SHORT        = 'u';
     const OPTION__IMPORT_ACTION__ELEMENT__DESCRIPTION = "What to do with elements (in DB) which doesn't exists in import file.";
 
-    const OPTION__IMPORT_SUCCESSFULL_ACTION              = "import-successfull-action";
-    const OPTION__IMPORT_SUCCESSFULL_ACTION_SHORT        = 'a';
-    const OPTION__IMPORT_SUCCESSFULL_ACTION__DESCRIPTION = "What to do when import finished successfully.";
-    const IMPORT_SUCCESSFULL_ACTION__DO_NOTHING          = 'n';
-    const IMPORT_SUCCESSFULL_ACTION__DO_RENAME           = 'r';
-    const IMPORT_SUCCESSFULL_ACTION__DO_DELETE           = 'd';
+    const OPTION__IMPORT_SUCCESSFUL_ACTION              = "import-successful-action";
+    const OPTION__IMPORT_SUCCESSFUL_ACTION_SHORT        = 'a';
+    const OPTION__IMPORT_SUCCESSFUL_ACTION__DESCRIPTION = "What to do when import finished successfully.";
+    const IMPORT_SUCCESSFUL_ACTION__DO_NOTHING          = 'n';
+    const IMPORT_SUCCESSFUL_ACTION__DO_RENAME           = 'r';
+    const IMPORT_SUCCESSFUL_ACTION__DO_DELETE           = 'd';
 
     // automation
     /*
@@ -76,15 +76,15 @@ class FromXML extends AbstractCommand
             // template string
             //->addOption(static::template_string1,                     static::template_string1_SHORT,                     InputOption::VALUE_OPTIONAL,    static::template_string1__DESCRIPTION,                  null)
             // VALUE_REQUIRED doesn't work maybe because JEDI
-            ->addOption(static::OPTION__IMPORT_DIR,                     static::OPTION__IMPORT_DIR_SHORT,                   InputOption::VALUE_OPTIONAL,    static::OPTION__IMPORT_DIR__DESCRIPTION,                Defaults::IMPORT_URL)
-            ->addOption(static::OPTION__MODE,                           static::OPTION__MODE_SHORT,                         InputOption::VALUE_REQUIRED,    static::OPTION__MODE__DESCRIPTION,                      Defaults::WORK_MODE__FILE)
-            ->addOption(static::OPTION__FILES,                          static::OPTION__FILES_SHORT,                        InputOption::VALUE_OPTIONAL,    static::OPTION__FILES__DESCRIPTION,                     null)
-            ->addOption(static::OPTION__FILES_EXCLUDED,                 static::OPTION__FILES_EXCLUDED_SHORT,               InputOption::VALUE_OPTIONAL,    static::OPTION__FILES_EXCLUDED__DESCRIPTION,            null)
-            ->addOption(static::OPTION__SITE_ID,                        static::OPTION__SITE_ID_SHORT,                      InputOption::VALUE_REQUIRED,    static::OPTION__SITE_ID__DESCRIPTION,                   null)
-            ->addOption(static::OPTION__IBLOCK_TYPE,                    static::OPTION__IBLOCK_TYPE_SHORT,                  InputOption::VALUE_REQUIRED,    static::OPTION__IBLOCK_TYPE__DESCRIPTION,               null)
-            ->addOption(static::OPTION__IMPORT_ACTION__SECTION,         static::OPTION__IMPORT_ACTION__SECTION_SHORT,       InputOption::VALUE_OPTIONAL,    static::OPTION__IMPORT_ACTION__SECTION__DESCRIPTION,    Defaults::IMPORT_ACTION__SECTION__DO_NOTHING)
-            ->addOption(static::OPTION__IMPORT_ACTION__ELEMENT,         static::OPTION__IMPORT_ACTION__ELEMENT_SHORT,       InputOption::VALUE_OPTIONAL,    static::OPTION__IMPORT_ACTION__ELEMENT__DESCRIPTION,    Defaults::IMPORT_ACTION__ELEMENT__DO_NOTHING)
-            ->addOption(static::OPTION__IMPORT_SUCCESSFULL_ACTION,      static::OPTION__IMPORT_SUCCESSFULL_ACTION_SHORT,    InputOption::VALUE_OPTIONAL,    static::OPTION__IMPORT_SUCCESSFULL_ACTION__DESCRIPTION, static::IMPORT_SUCCESSFULL_ACTION__DO_NOTHING)
+            ->addOption(self::OPTION__IMPORT_DIR,                     self::OPTION__IMPORT_DIR_SHORT,                   InputOption::VALUE_OPTIONAL,    self::OPTION__IMPORT_DIR__DESCRIPTION,                Defaults::IMPORT_URL)
+            ->addOption(self::OPTION__MODE,                           self::OPTION__MODE_SHORT,                         InputOption::VALUE_REQUIRED,    self::OPTION__MODE__DESCRIPTION,                      Defaults::WORK_MODE__FILE)
+            ->addOption(self::OPTION__FILES,                          self::OPTION__FILES_SHORT,                        InputOption::VALUE_OPTIONAL,    self::OPTION__FILES__DESCRIPTION,                     null)
+            ->addOption(self::OPTION__FILES_EXCLUDED,                 self::OPTION__FILES_EXCLUDED_SHORT,               InputOption::VALUE_OPTIONAL,    self::OPTION__FILES_EXCLUDED__DESCRIPTION,            null)
+            ->addOption(self::OPTION__SITE_ID,                        self::OPTION__SITE_ID_SHORT,                      InputOption::VALUE_REQUIRED,    self::OPTION__SITE_ID__DESCRIPTION,                   null)
+            ->addOption(self::OPTION__IBLOCK_TYPE,                    self::OPTION__IBLOCK_TYPE_SHORT,                  InputOption::VALUE_REQUIRED,    self::OPTION__IBLOCK_TYPE__DESCRIPTION,               null)
+            ->addOption(self::OPTION__IMPORT_ACTION__SECTION,         self::OPTION__IMPORT_ACTION__SECTION_SHORT,       InputOption::VALUE_OPTIONAL,    self::OPTION__IMPORT_ACTION__SECTION__DESCRIPTION,    Defaults::IMPORT_ACTION__SECTION__DO_NOTHING)
+            ->addOption(self::OPTION__IMPORT_ACTION__ELEMENT,         self::OPTION__IMPORT_ACTION__ELEMENT_SHORT,       InputOption::VALUE_OPTIONAL,    self::OPTION__IMPORT_ACTION__ELEMENT__DESCRIPTION,    Defaults::IMPORT_ACTION__ELEMENT__DO_NOTHING)
+            ->addOption(self::OPTION__IMPORT_SUCCESSFUL_ACTION,       self::OPTION__IMPORT_SUCCESSFUL_ACTION_SHORT,     InputOption::VALUE_OPTIONAL,    self::OPTION__IMPORT_SUCCESSFUL_ACTION__DESCRIPTION,  self::IMPORT_SUCCESSFUL_ACTION__DO_NOTHING)
         ;
     }
 
@@ -142,10 +142,10 @@ class FromXML extends AbstractCommand
         ]);
 
         $on = 'OPTION__IMPORT_SUCCESSFULL_ACTION';
-        $importSuccessfullAction = $this->checkAndGetOptionValue($input, $on, [
-            static::IMPORT_SUCCESSFULL_ACTION__DO_NOTHING,
-            static::IMPORT_SUCCESSFULL_ACTION__DO_RENAME,
-            static::IMPORT_SUCCESSFULL_ACTION__DO_DELETE,
+        $importSuccessfulAction = $this->checkAndGetOptionValue($input, $on, [
+            static::IMPORT_SUCCESSFUL_ACTION__DO_NOTHING,
+            static::IMPORT_SUCCESSFUL_ACTION__DO_RENAME,
+            static::IMPORT_SUCCESSFUL_ACTION__DO_DELETE,
         ]);
 
         switch ($mode) {
@@ -176,13 +176,13 @@ class FromXML extends AbstractCommand
                             $output->writeln("File ({$file}) successfully imported.");
                         }
 
-                        switch ($importSuccessfullAction) {
-                            case static::IMPORT_SUCCESSFULL_ACTION__DO_NOTHING:
+                        switch ($importSuccessfulAction) {
+                            case static::IMPORT_SUCCESSFUL_ACTION__DO_NOTHING:
                                 break;
-                            case static::IMPORT_SUCCESSFULL_ACTION__DO_RENAME:
+                            case static::IMPORT_SUCCESSFUL_ACTION__DO_RENAME:
                                 // ToDo: rename logic
                                 break;
-                            case static::IMPORT_SUCCESSFULL_ACTION__DO_DELETE:
+                            case static::IMPORT_SUCCESSFUL_ACTION__DO_DELETE:
                                 $output->writeln('Started deleting of imported resources.');
                                 $mediaDirectory = dirname($fileAbsPath) . DIRECTORY_SEPARATOR . basename($fileAbsPath, '.xml') . '_files';
                                 if (file_exists($fileAbsPath) && is_file($fileAbsPath)) {
@@ -206,7 +206,7 @@ class FromXML extends AbstractCommand
                                 break;
                         }
                     } else {
-                        $output->writeln("File ({$file}) doesnt't exists. Skipped.");
+                        $output->writeln("File ({$file}) doesn't exists. Skipped.");
                     }
                 }
                 break;
