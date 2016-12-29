@@ -141,7 +141,7 @@ class FromXML extends AbstractCommand
             Defaults::IMPORT_ACTION__ELEMENT__DO_DELETE,
         ]);
 
-        $on = 'OPTION__IMPORT_SUCCESSFULL_ACTION';
+        $on = 'OPTION__IMPORT_SUCCESSFUL_ACTION';
         $importSuccessfulAction = $this->checkAndGetOptionValue($input, $on, [
             static::IMPORT_SUCCESSFUL_ACTION__DO_NOTHING,
             static::IMPORT_SUCCESSFUL_ACTION__DO_RENAME,
