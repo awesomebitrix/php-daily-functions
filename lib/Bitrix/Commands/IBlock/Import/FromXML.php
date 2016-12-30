@@ -175,7 +175,7 @@ class FromXML extends AbstractCommand
                             $useCRC = true,
                             $preview = false,
                             $sync = false,
-                            $returnlastError = true,
+                            $returnLastError = true,
                             $returnIblockId = false
                         );
 
