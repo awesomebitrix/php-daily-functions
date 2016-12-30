@@ -72,6 +72,7 @@ class System
 
     /**
      * @return array
+     * @throws \ErrorException
      */
     public static function getProdDomains()
     {
@@ -82,7 +83,7 @@ class System
     }
 
     /**
-     * Deletes directory recursievely.
+     * Deletes directory recursively.
      *
      * @param $path
      * @return bool

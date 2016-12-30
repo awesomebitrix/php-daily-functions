@@ -161,11 +161,11 @@ class FromXML extends AbstractCommand
             case Defaults::WORK_MODE__FILE:
                 $output->writeln('Import started.');
                 foreach ($files as $file) {
-                    $output->writeln("Importing file ({$file}) in progress...");
-
                     $fileAbsPath = realpath($_SERVER['DOCUMENT_ROOT'] . $importDir . DIRECTORY_SEPARATOR . $file);
 
                     if (file_exists($fileAbsPath) && is_file($fileAbsPath)) {
+                        $output->writeln("Importing file ({$file}) in progress...");
+
                         $res = ImportXMLFile(
                             $fileAbsPath,
                             $iblockType,
@@ -196,7 +196,7 @@ class FromXML extends AbstractCommand
                                 $mediaDirectory = dirname($fileAbsPath) . DIRECTORY_SEPARATOR . basename($fileAbsPath, '.xml') . '_files';
                                 if (file_exists($fileAbsPath) && is_file($fileAbsPath)) {
                                     if (unlink($fileAbsPath)) {
-                                        $output->writeln('Successfully deleled: ' . $fileAbsPath);
+                                        $output->writeln('Successfully deleted: ' . $fileAbsPath);
                                     } else {
                                         $output->writeln('Error occur while deleting: ' . $fileAbsPath);
                                     }
@@ -204,7 +204,7 @@ class FromXML extends AbstractCommand
                                     $output->writeln("File doesn't exists: " . $fileAbsPath);
                                 }
                                 if (file_exists($mediaDirectory) && is_dir($mediaDirectory)) {
-                                    if (System::deleteDirectory($mediaDirectory)) {
+                                    if ((new System())->deleteDirectory($mediaDirectory)) {
                                         $output->writeln('Successfully deleted: ' . $mediaDirectory);
                                     } else {
                                         $output->writeln('Error occur while deleting: ' . $mediaDirectory);
