@@ -1,13 +1,12 @@
 <?
 namespace bfday\PHPDailyFunctions\Bitrix\Commands\IBlock\Import;
 
-use bfday\PHPDailyFunctions\Bitrix\Base\File;
-use bfday\PHPDailyFunctions\Bitrix\Helpers\IBlock;
 use bfday\PHPDailyFunctions\Helpers\ExecTimeMeasurement;
 use bfday\PHPDailyFunctions\Helpers\System;
 use Bitrix\Main\Entity\Query;
 use Bitrix\Main\Loader;
 use Bitrix\Main\SiteTable;
+use Bitrix\Main\Type\DateTime;
 use Phinx\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -72,6 +71,11 @@ class FromXML extends AbstractCommand
      */
     protected $executionTimeMeasurer;
 
+    /**
+     * @var \DateTime
+     */
+    protected $dateTime;
+
     // automation
     /*
      * ToDo: automation such detecting IBlock type and site id by filename
@@ -79,6 +83,7 @@ class FromXML extends AbstractCommand
 
     protected function configure()
     {
+        $this->dateTime = new \DateTime();
         $this->executionTimeMeasurer = new ExecTimeMeasurement();
         $this
             ->setName('import:IBlocksFromXML')
@@ -159,7 +164,7 @@ class FromXML extends AbstractCommand
 
         switch ($mode) {
             case Defaults::WORK_MODE__FILE:
-                $output->writeln('Import started.');
+                $output->writeln('Import started at ' . $this->getDateTimeString());
                 foreach ($files as $file) {
                     $fileAbsPath = realpath($_SERVER['DOCUMENT_ROOT'] . $importDir . DIRECTORY_SEPARATOR . $file);
 
@@ -262,5 +267,10 @@ class FromXML extends AbstractCommand
             }
         }
         return $v;
+    }
+
+    protected function getDateTimeString()
+    {
+        return $this->dateTime->format(\DateTime::W3C);
     }
 }
