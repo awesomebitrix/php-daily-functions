@@ -6,7 +6,6 @@ use bfday\PHPDailyFunctions\Helpers\System;
 use Bitrix\Main\Entity\Query;
 use Bitrix\Main\Loader;
 use Bitrix\Main\SiteTable;
-use Bitrix\Main\Type\DateTime;
 use Phinx\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -179,7 +178,7 @@ class FromXML extends AbstractCommand
                             $elementAction,
                             $useCRC = true,
                             $preview = false,
-                            $sync = false,
+                            $sync = true,
                             $returnLastError = true,
                             $returnIblockId = false
                         );
