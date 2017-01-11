@@ -178,7 +178,7 @@ class FromXML extends AbstractCommand
                             $siteId,
                             $sectionAction,
                             $elementAction,
-                            $useCRC = true,
+                            $useCRC = false,
                             $preview = false,
                             $sync = true,
                             $returnLastError = true,
