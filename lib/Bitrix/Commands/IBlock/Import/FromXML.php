@@ -103,6 +103,8 @@ class FromXML extends AbstractCommand
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
+        // bug fix
+        @set_time_limit(0);
         $on = 'OPTION__IMPORT_DIR';
         $importDir = $this->checkAndGetOptionValue($input, $on);
 
