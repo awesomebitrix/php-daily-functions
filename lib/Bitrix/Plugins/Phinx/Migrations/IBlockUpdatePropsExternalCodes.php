@@ -2,9 +2,7 @@
 
 namespace bfday\PHPDailyFunctions\Bitrix\Plugins\Phinx\Migrations;
 
-use Phinx\Migration\AbstractMigration;
-
-class IBlockUpdatePropsExternalCodes extends AbstractMigration
+class IBlockUpdatePropsExternalCodes extends Base
 {
     const VALUE_SIMILAR_TO_PROPERTY_CODE = '#SIMILAR_TO_CODE#';
     const VALUE_SIMILAR_TO_PROPERTY_ID   = '#SIMILAR_TO_ID#';
@@ -15,9 +13,10 @@ class IBlockUpdatePropsExternalCodes extends AbstractMigration
 
     protected $iBlockProperties;
 
-
     public function up()
     {
+        parent::up();
+
         // update XML_IDs of properties
         $obBlockProperty = new \CIBlockProperty();
         foreach ($this->iBlockProperties as $iBlockPropertyCode => $iBlockPropertyFields) {
@@ -63,6 +62,8 @@ class IBlockUpdatePropsExternalCodes extends AbstractMigration
 
     public function down()
     {
+        parent::down();
+
         $this->getOutput()
              ->writeln("No reverse migration is needed.")
         ;
