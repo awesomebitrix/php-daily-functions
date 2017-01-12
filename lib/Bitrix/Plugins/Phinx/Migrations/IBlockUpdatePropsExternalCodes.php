@@ -86,9 +86,5 @@ class IBlockUpdatePropsExternalCodes extends AbstractMigration
         }
 
         \Bitrix\Main\Loader::includeModule('iblock');
-
-        $this->getOutput()
-             ->writeln("IBlock ({$this->iBlockCode}) properties changing started.")
-        ;
     }
 }
