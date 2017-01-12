@@ -74,7 +74,7 @@ class IBlockUpdatePropsExternalCodes extends Base
      *
      * @throws \Exception
      */
-    protected function init()
+    protected function initCommonData()
     {
         if (empty($this->iBlockCode) || !is_string($this->iBlockCode)) {
             throw new \Exception("Property (iBlockCode) should have string type and cannot be empty.");
