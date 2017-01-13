@@ -17,6 +17,8 @@ class IBlock
     use Singleton;
 
     /**
+     * In memory cache array.
+     *
      * @var array - contains IDs of corresponding IBlocks by its codes.
      * If no such IBlock with code X - corresponding value equals to [false]
      */
@@ -30,7 +32,7 @@ class IBlock
     /**
      * Returns IBlocks IDs by their codes. Uses Bitrix D7
      *
-     * ToDo: cache results in memory?
+     * ToDo: cache results at disk?
      * @param $codes array|string
      * @return array of string|bool
      * @throws \Exception
