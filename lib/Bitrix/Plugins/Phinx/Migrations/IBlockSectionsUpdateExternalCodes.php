@@ -82,11 +82,11 @@ class IBlockSectionsUpdateExternalCodes extends Base
                             $this->getOutput()
                                  ->writeln("Section ({$section['ID']} {$section[$sectionPropertyExtCode]} {$section['NAME']}) have been updated.")
                             ;
-                            /*SectionTable::update($section['ID'],
+                            SectionTable::update($section['ID'],
                                 [
                                     $sectionPropertyExtCode => $section['ID'],
                                 ]
-                            );*/
+                            );
                         }
                     }
 
