@@ -59,6 +59,9 @@ class IBlockSectionsUpdateExternalCodes extends Base
                 do {
                     $sectionQuery = new Query(SectionTable::getEntity());
                     $sections = $sectionQuery
+                        ->setOrder([
+                            "ID" => "ASC",
+                        ])
                         ->setSelect([
                             "ID",
                             "NAME",
@@ -68,18 +71,17 @@ class IBlockSectionsUpdateExternalCodes extends Base
                             "IBLOCK_ID" => $this->iBlockId,
                         ])
                         ->setLimit($this->processSectionsPerStep)
-                        ->setOffset($page - 1)
+                        ->setOffset(($page - 1) * $this->processSectionsPerStep)
                         ->exec()
                         ->fetchAll()
                     ;
 
-                    $this->getOutput()->writeln(Debug::viewVar($sections));
-
                     foreach ($sections as $section) {
-                        $this->getOutput()->writeln("Section ({$section['ID']} {$section['NAME']}) have been updated.");
                         if ($section['ID'] != $section[$sectionPropertyExtCode]) {
                             // update XML_ID of section
-                            $this->getOutput()->writeln("Section ({$section['ID']} {$section['NAME']}) have been updated.");
+                            $this->getOutput()
+                                 ->writeln("Section ({$section['ID']} {$section[$sectionPropertyExtCode]} {$section['NAME']}) have been updated.")
+                            ;
                             /*SectionTable::update($section['ID'],
                                 [
                                     $sectionPropertyExtCode => $section['ID'],
@@ -89,7 +91,7 @@ class IBlockSectionsUpdateExternalCodes extends Base
                     }
 
                     $page++;
-                } while (is_array($sections) && count($sections) >= $this->processSectionsPerStep);
+                } while (count($sections) >= $this->processSectionsPerStep);
                 // change their codes
                 throw new \Exception("test");
                 break;
@@ -106,17 +108,6 @@ class IBlockSectionsUpdateExternalCodes extends Base
                 throw new \Exception("Sorry, but selected [mode] have not been implemnted yet.");
                 break;
         }
-    }
-
-    public function down()
-    {
-        parent::down();
-
-        $this->initSettings();
-
-        $this->getOutput()
-             ->writeln("No reverse migration is needed.")
-        ;
     }
 
     /**
@@ -152,5 +143,16 @@ class IBlockSectionsUpdateExternalCodes extends Base
         }
 
         \Bitrix\Main\Loader::includeModule('iblock');
+    }
+
+    public function down()
+    {
+        parent::down();
+
+        $this->initSettings();
+
+        $this->getOutput()
+             ->writeln("No reverse migration is needed.")
+        ;
     }
 }
