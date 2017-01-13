@@ -53,7 +53,6 @@ class IBlockSectionsUpdateExternalCodes extends Base
 
         switch ($this->mode) {
             case static::MODE__EQUAL_TO_ID:
-                // get all sections 1 by 1
                 $sections = [];
                 $page = 1;
                 do {
@@ -92,8 +91,6 @@ class IBlockSectionsUpdateExternalCodes extends Base
 
                     $page++;
                 } while (count($sections) >= $this->processSectionsPerStep);
-                // change their codes
-                throw new \Exception("test");
                 break;
             case static::MODE__EQUAL_TO_CODE:
                 // ToDo: implement logic
