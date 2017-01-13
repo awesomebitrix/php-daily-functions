@@ -71,10 +71,10 @@ class IdByExternalId
             // maybe resort is needed to exclude similar cache ids
             sort($codes);
         } elseif (!is_array($codes)) {
-            if (is_string($codes)) {
+            if (is_string($codes) || is_int($codes)) {
                 $codes = [$codes];
             } else {
-                throw new \Exception('$codes must have string or array type.');
+                throw new \Exception('$codes must have string, integer or array type.');
             }
         }
 
