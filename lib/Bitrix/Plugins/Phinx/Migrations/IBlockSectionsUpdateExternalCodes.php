@@ -2,6 +2,7 @@
 
 namespace bfday\PHPDailyFunctions\Bitrix\Plugins\Phinx\Migrations;
 
+use bfday\PHPDailyFunctions\Helpers\Debug;
 use Bitrix\Iblock\SectionTable;
 use Bitrix\Main\Entity\Query;
 
@@ -58,17 +59,21 @@ class IBlockSectionsUpdateExternalCodes extends Base
                 do {
                     $sectionQuery = new Query(SectionTable::getEntity());
                     $sections = $sectionQuery
-                        ->addSelect([
+                        ->setSelect([
                             "ID",
                             "NAME",
                             $sectionPropertyExtCode,
                         ])
-                        ->addFilter([
-                            "IBLOCK_CODE" => $this->iBlockCode,
+                        ->setFilter([
+                            "IBLOCK_ID" => $this->iBlockId,
                         ])
                         ->setLimit($this->processSectionsPerStep)
                         ->setOffset($page - 1)
+                        ->exec()
+                        ->fetchAll()
                     ;
+
+                    $this->getOutput()->writeln(Debug::viewVar($sections));
 
                     foreach ($sections as $section) {
                         $this->getOutput()->writeln("Section ({$section['ID']} {$section['NAME']}) have been updated.");
