@@ -10,7 +10,7 @@ use Bitrix\Main\Loader;
 /**
  * IBlock helper to help in common routines.
  *
- * @method static |IBlock getInstance()
+ * @method static|IBlock getInstance()
  */
 class IBlock
 {
