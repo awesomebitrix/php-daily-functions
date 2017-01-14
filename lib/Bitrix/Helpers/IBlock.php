@@ -90,11 +90,11 @@ class IBlock
         }
 
         if (!empty($codes)) {
-            $codes = implode(";", $codes);
-            throw new \Exception("IBlocks with codes [$codes] was not found. Maybe they were deleted. Remove references from code.");
-            /*foreach ($codes as $code) {
+            //$codes = implode(";", $codes);
+            //throw new \Exception("IBlocks with codes [$codes] was not found. Maybe they were deleted. Remove references from code.");
+            foreach ($codes as $code) {
                 $arIBlockCodesIDs[$code] = false;
-            }*/
+            }
         }
 
         return $arIBlockCodesIDs;
