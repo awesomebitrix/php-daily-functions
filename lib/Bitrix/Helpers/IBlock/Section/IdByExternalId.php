@@ -4,7 +4,6 @@ namespace bfday\PHPDailyFunctions\Bitrix\Helpers\IBlock\Section;
 
 use bfday\PHPDailyFunctions\Bitrix\Helpers\IBlock;
 use bfday\PHPDailyFunctions\Traits\Singleton;
-use Bitrix\Iblock\IblockTable;
 use Bitrix\Iblock\SectionTable;
 use Bitrix\Main\Entity\Query;
 use Bitrix\Main\Loader;
