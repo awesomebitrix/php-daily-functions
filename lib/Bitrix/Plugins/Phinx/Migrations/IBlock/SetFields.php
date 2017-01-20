@@ -1,8 +1,10 @@
 <?php
 
-namespace bfday\PHPDailyFunctions\Bitrix\Plugins\Phinx\Migrations;
+namespace bfday\PHPDailyFunctions\Bitrix\Plugins\Phinx\Migrations\IBlock;
 
-class IBlockSetFields extends Base
+use bfday\PHPDailyFunctions\Bitrix\Plugins\Phinx\Migrations\Base;
+
+class SetFields extends Base
 {
     /**
      * @var array - array like
