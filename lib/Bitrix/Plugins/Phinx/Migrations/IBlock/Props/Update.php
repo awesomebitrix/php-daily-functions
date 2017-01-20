@@ -50,7 +50,7 @@ class Update extends Base
             } else {
                 $obBlockProperty->Update($arIBlockPropertyData['ID'], $iBlockPropertyFields);
                 $this->getOutput()
-                     ->writeln("Property ($iBlockPropertyCode) have been updated.")
+                     ->writeln("Property ($iBlockPropertyCode, IBlockCode={$this->iBlockCode}, iBlockId={$this->iBlockId}) have been updated.")
                 ;
             }
         }
@@ -82,7 +82,7 @@ class Update extends Base
     }
 
     /**
-     * Dont forget in child method run "parent::init();" before write your code.
+     * Don't forget in child method run "parent::initCommonData();" after init of object properties.
      *
      * @throws \Exception
      */
