@@ -1,12 +1,12 @@
 <?php
 
-namespace bfday\PHPDailyFunctions\Bitrix\Plugins\Phinx\Migrations;
+namespace bfday\PHPDailyFunctions\Bitrix\Plugins\Phinx\Migrations\IBlock\Sections;
 
-use bfday\PHPDailyFunctions\Helpers\Debug;
+use bfday\PHPDailyFunctions\Bitrix\Plugins\Phinx\Migrations\Base;
 use Bitrix\Iblock\SectionTable;
 use Bitrix\Main\Entity\Query;
 
-class IBlockSectionsUpdateExternalCodes extends Base
+class UpdateExternalCodes extends Base
 {
     /**
      * Modes. Don't forget update ::initCommonData() method after adding new mode.
