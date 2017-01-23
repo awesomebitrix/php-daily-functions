@@ -2,6 +2,7 @@
 
 namespace bfday\PHPDailyFunctions\Bitrix\Helpers;
 
+use bfday\PHPDailyFunctions\Traits\CacheForObjectMethodResults;
 use bfday\PHPDailyFunctions\Traits\Singleton;
 use Bitrix\Iblock\IblockTable;
 use Bitrix\Main\Entity\Query;
@@ -15,31 +16,12 @@ use Bitrix\Main\Loader;
 class IBlock
 {
     use Singleton;
+    use CacheForObjectMethodResults;
 
     /**
-     * In memory cache array.
-     *
-     * @var array - contains IDs of corresponding IBlocks by its codes.
-     * If no such IBlock with code X - corresponding value equals to [false]
+     * @var string - path to cache dir. relative to /bitrix/cache or absolute to system.
      */
-    protected $arIBlockCodesIDs;
-
-    public function __construct()
-    {
-        $this->dropCache();
-    }
-
-    public function dropCache()
-    {
-        $this->arIBlockCodesIDs = [];
-    }
-
-    protected $diskCacheDir;
-
-    /**
-     * @var int - seconds
-     */
-    protected $cacheTime = 8640000;
+    protected $cacheDir;
 
     /**
      * Returns IBlocks IDs by their codes. Uses Bitrix D7
@@ -70,22 +52,10 @@ class IBlock
             }
         }
 
-        $arIBlockCodesIDs = [];
-
         Loader::includeModule('iblock');
 
-        // try to fetch from cache
-        $cacheId = serialize($codes);
-        $phpCache = new \CPHPCache();
-        if ($phpCache->InitCache($this->cacheTime, $cacheId, "/" . str_replace("\\", "_", get_called_class()) . "/")) {
-            $arIBlockCodesIDs = $phpCache->GetVars();
-        } else {
-            foreach ($codes as $k => $code) {
-                if (isset($this->arIBlockCodesIDs[$code])) {
-                    $arIBlockCodesIDs[$code] = $this->arIBlockCodesIDs[$code];
-                    unset($codes[$k]);
-                }
-            }
+        if (($arIBlockCodesIDs = $this->cacheSetStorageProvider(new \CPHPCache())->setCacheTime(8640000)->cacheGetData(__METHOD__, null, $codes)) === null) {
+            $arIBlockCodesIDs = [];
 
             if (!empty($codes)) {
                 $query = new Query(IblockTable::getEntity());
@@ -102,7 +72,6 @@ class IBlock
                 ;
                 foreach ($arIBlocks as $arIBlock) {
                     $arIBlockCodesIDs[$arIBlock['CODE']] = $arIBlock['ID'];
-                    $this->arIBlockCodesIDs[$arIBlock['CODE']] = $arIBlock['ID'];
                     if (($k = array_search($arIBlock['CODE'], $codes)) !== false) {
                         unset($codes[$k]);
                     }
@@ -118,9 +87,7 @@ class IBlock
                 }
             }
 
-            if ($phpCache->StartDataCache()) {
-                $phpCache->EndDataCache($arIBlockCodesIDs);
-            }
+            $this->cacheSaveData($arIBlockCodesIDs);
         }
 
         return $arIBlockCodesIDs;
