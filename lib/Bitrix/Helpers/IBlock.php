@@ -26,8 +26,6 @@ class IBlock
     /**
      * Returns IBlocks IDs by their codes. Uses Bitrix D7
      *
-     * ToDo: cache results at disk?
-     *
      * @param $codes array|string
      *
      * @return array of string|bool
@@ -80,8 +78,6 @@ class IBlock
             }
 
             if (!empty($codes)) {
-                //$codes = implode(";", $codes);
-                //throw new \Exception("IBlocks with codes [$codes] was not found. Maybe they were deleted. Remove references from code.");
                 foreach ($codes as $code) {
                     $arIBlockCodesIDs[$code] = false;
                 }
