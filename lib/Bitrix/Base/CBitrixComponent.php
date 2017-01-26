@@ -155,7 +155,7 @@ abstract class CBitrixComponent extends \CBitrixComponent
     protected function init()
     {
         // init default values for arParams if corresponding values are empty
-        $this->arParams = array_merge($this->arParamsDefaults, $this->arParams);
+        $this->arParams = array_replace_recursive($this->arParamsDefaults, $this->arParams);
         return true;
     }
 

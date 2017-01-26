@@ -1,7 +1,7 @@
 #!/bin/bash
 # fast method to add changes to this repo
-TAG_NAME=v1.10.1
-COMMENT="Extended [Common::formatPrice] for more types of vars"
+TAG_NAME=v1.10.2
+COMMENT="Fix of default params merge in [CBitrixComponent]"
 if [[ "$@" != "" ]]; then
     COMMENT="$@"
 fi
