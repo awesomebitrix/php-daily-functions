@@ -19,6 +19,7 @@ class Debug
 
     /**
      * @return mixed
+     * @throws \ErrorException
      */
     public static function getLogFilePath()
     {
