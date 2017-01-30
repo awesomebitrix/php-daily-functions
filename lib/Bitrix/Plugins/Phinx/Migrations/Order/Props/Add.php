@@ -12,22 +12,26 @@ class Add extends Base
      *      http://dev.1c-bitrix.ru/api_help/sale/classes/csaleorderprops/csaleorderprops__add.b64a5ac9.php) like this:
      *      [
      *          [
-     *              PERSON_TYPE_ID - тип плательщика;
-     *              ACTIVE - активность;
-     * NAME - название свойства (тип плательщика зависит от сайта, а сайт - от языка; название должно быть на
-     * соответствующем языке); TYPE - тип свойства. Допустимые значения: CHECKBOX - флаг; TEXT - строка текста; SELECT
-     * - выпадающий список значений; MULTISELECT - список со множественным выбором; TEXTAREA - многострочный текст;
-     * LOCATION - местоположение; RADIO - переключатель. REQUIED - флаг (Y/N) обязательное ли поле; DEFAULT_VALUE -
-     * значение по умолчанию; SORT - индекс сортировки; USER_PROPS - флаг (Y/N) входит ли это свойство в профиль
-     * покупателя; IS_LOCATION - флаг (Y/N) использовать ли значение свойства как местоположение покупателя для расчёта
-     * стоимости доставки (только для свойств типа LOCATION); PROPS_GROUP_ID - код группы свойств; SIZE1 - ширина поля
-     * (размер по горизонтали); SIZE2 - высота поля (размер по вертикали); DESCRIPTION - описание свойства; IS_EMAIL -
-     * флаг (Y/N) использовать ли значение свойства как E-Mail покупателя; IS_PROFILE_NAME - флаг (Y/N) использовать ли
-     * значение свойства как название профиля покупателя; IS_PAYER - флаг (Y/N) использовать ли значение свойства как
-     * имя плательщика; IS_LOCATION4TAX - флаг (Y/N) использовать ли значение свойства как местоположение покупателя
-     * для расчёта налогов (только для свойств типа LOCATION); CODE - символьный код свойства. IS_FILTERED - свойство
-     * доступно в фильтре по заказам. С версии 10.0. IS_ZIP - использовать как почтовый индекс. С версии 10.0. UTIL -
-     * позволяет использовать свойство только в административной части. С версии 11.0.
+     *              "PERSON_TYPE_ID"  => \Willsmart\Bitrix\Modules\Shop\Order::PERSON_TYPE__NATURAL__ID,
+     *              "NAME"            => "Офис",
+     *              "TYPE"            => "TEXT",
+     *              "REQUIED"         => "N",
+     *              "DEFAULT_VALUE"   => "",
+     *              "SORT"            => "500",
+     *              "USER_PROPS"      => "Y",
+     *              "IS_LOCATION"     => "N",
+     *              "PROPS_GROUP_ID"  => \Willsmart\Bitrix\Modules\Shop\Order::PROPS_GROUP__CONTACT_INFO__ID,
+     *              "SIZE1"           => 30,
+     *              "SIZE2"           => 1,
+     *              "DESCRIPTION"     => "Офис",
+     *              "IS_EMAIL"        => "N",
+     *              "IS_PROFILE_NAME" => "N",
+     *              "IS_PAYER"        => "N",
+     *              "IS_LOCATION4TAX" => "N",
+     *              "CODE"            => $code,
+     *              "IS_FILTERED"     => "Y",
+     *              "IS_ZIP"          => "N",
+     *              "UTIL"            => "N",
      *          ],
      *          ...
      *      ]
