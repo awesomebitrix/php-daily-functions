@@ -1,25 +1,31 @@
-<?
-namespace bfday\PHPDailyFunctions\Traits;
+<?php
+
+namespace bfday\PHPDailyFunctions\Engine\Cache;
 
 use bfday\PHPDailyFunctions\Helpers\Strings;
 
 /**
  * How to use:
- * $this->cacheSetStorageProvider($cacheStorageProvider);
- * if (($cachedData = $this->cacheSetStorageProvider(new \CPHPCache())->setCacheTime(8640000)->cacheGetData(__METHOD__, null, $methodInputData)) === null) {
- *      // generate $cacheData
- *      // save it
- *      $this->cacheSaveData($cachedData);
- * };
+ * ```
+ * $cache = new \bfday\PHPDailyFunctions\Engine\Cache\MethodResult();
+ * $newData = ['newData'];
+ * if (($arIBlockCodesIDs = $cache
+ *                              ->cacheSetStorageProvider(new \CPHPCache())
+ *                              ->setCacheTime(3000)
+ *                              ->cacheGetData(null, $input)) === null
+ * ) {
+ *      $cache->cacheSaveData($newData);
+ * }
+ * ```
+ * ! don't forget to provide canonical view for $newData
  *
- * ToDo: test this Trait for multiple usage in single object
- * ToDo: cache interface required =(
- * ToDo: refactor as standalone class
+ * ToDo: test this Class for multiple usage in single object
+ * ToDo: cache interface required
  *
- * Class ObjectMethodResultCache
- * @package bfday\PHPDailyFunctions\Traits
+ * Class MethodResult
+ * @package bfday\PHPDailyFunctions\Engine\Cache
  */
-trait CacheForObjectMethodResults
+class MethodResult
 {
     /**
      * @var int - number of seconds to keep cache.
@@ -27,8 +33,6 @@ trait CacheForObjectMethodResults
     private $cacheTime = 3600;
 
     private $cacheStorageProvider;
-
-    private $cacheBaseDir;
 
     private $cacheUpdateNeeded = false;
 
@@ -54,7 +58,7 @@ trait CacheForObjectMethodResults
      * @return $this
      * @throws \Exception
      */
-    protected function cacheSetStorageProvider($cacheStorageProvider)
+    public function cacheSetStorageProvider($cacheStorageProvider)
     {
         if (empty($cacheStorageProvider)) {
             throw new \Exception('$cacheStorageProvider cannot be empty.');
@@ -65,7 +69,6 @@ trait CacheForObjectMethodResults
     }
 
     /**
-     * @param string $fullMethodName - use __METHOD__ magic var in calling method
      * @param        $cacheId
      * @param null   $inputParams    - you can generate $cacheId manually or this method can do it for you using
      *                               $inputParams
@@ -74,27 +77,33 @@ trait CacheForObjectMethodResults
      *
      * @throws \Exception
      */
-    protected function cacheGetData($fullMethodName, $cacheId = null, $inputParams = null)
+    public function cacheGetData($cacheId = null, $inputParams = null)
     {
+        $bTrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
+        if (!is_array($bTrace)) {
+            throw new \Exception("[debug_backtrace] error result");
+        } elseif (count($bTrace) < 1) {
+            throw new \Exception("Not function call is not supported");
+        }
+        $bTrace = $bTrace[1];
+        $cacheDir = $bTrace["file"] . (isset($bTrace["class"]) ? $bTrace["class"] : "") . "_" . $bTrace["function"];
+
         $this->cacheCheckData();
 
         if ($cacheId === null or $cacheId === false) {
-            if (empty($inputParams)) {
+            if ($inputParams === false) {
                 throw new \Exception('$cacheId and $inputParams cannot be empty simultaneously.');
             } else {
                 $cacheId = serialize($inputParams);
             }
         }
 
-        if (empty($fullMethodName)) {
-            throw new \Exception('$fullMethodName cannot be empty.');
-        }
-
         $cacheDir = Strings::stringMultipleReplace(
-            $fullMethodName . DIRECTORY_SEPARATOR,
+            $cacheDir,
             [
                 '\\' => "_",
                 '::' => "__",
+                '/'  => "_",
             ]
         );
 
@@ -131,7 +140,7 @@ trait CacheForObjectMethodResults
      * @return bool - FALSE on error
      * @throws \Exception
      */
-    protected function cacheSaveData($cacheData)
+    public function cacheSaveData($cacheData)
     {
         if ($this->cacheUpdateNeeded === false) {
             throw new \Exception('You tried to save data when its not needed.');

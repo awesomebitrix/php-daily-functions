@@ -2,7 +2,7 @@
 
 namespace bfday\PHPDailyFunctions\Bitrix\Helpers;
 
-use bfday\PHPDailyFunctions\Traits\CacheForObjectMethodResults;
+use bfday\PHPDailyFunctions\Traits\Cache\MethodResult;
 use bfday\PHPDailyFunctions\Traits\Singleton;
 use Bitrix\Iblock\IblockTable;
 use Bitrix\Main\Entity\Query;
@@ -16,7 +16,7 @@ use Bitrix\Main\Loader;
 class IBlock
 {
     use Singleton;
-    use CacheForObjectMethodResults;
+    use MethodResult;
 
     /**
      * @var string - path to cache dir. relative to /bitrix/cache or absolute to system.
@@ -52,7 +52,10 @@ class IBlock
 
         Loader::includeModule('iblock');
 
-        if (($arIBlockCodesIDs = $this->cacheSetStorageProvider(new \CPHPCache())->setCacheTime(8640000)->cacheGetData(__METHOD__, null, $codes)) === null) {
+        if (($arIBlockCodesIDs = $this->cacheSetStorageProvider(new \CPHPCache())
+                                      ->setCacheTime(8640000)
+                                      ->cacheGetData(__METHOD__, null, $codes)) === null
+        ) {
             $arIBlockCodesIDs = [];
 
             if (!empty($codes)) {
