@@ -25,6 +25,7 @@ class IBlock
 
     /**
      * Returns IBlocks IDs by their codes. Uses Bitrix D7
+     * Warning: all IBlock codes should be unique in all DB.
      *
      * @param $codes array|string
      *
