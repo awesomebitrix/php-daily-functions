@@ -1,7 +1,7 @@
 #!/bin/bash
 # fast method to add changes to this repo
-TAG_NAME=v1.12.1
-COMMENT="PHPDoc update"
+TAG_NAME=v1.13.0
+COMMENT="Added class to manipulate with price \bfday\PHPDailyFunctions\Helpers\Price"
 if [[ "$@" != "" ]]; then
     COMMENT="$@"
 fi
