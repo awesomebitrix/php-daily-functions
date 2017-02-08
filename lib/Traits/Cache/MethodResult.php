@@ -49,6 +49,12 @@ trait MethodResult
         return $this;
     }
 
+    /**
+     * @param $fullMethodName - use __METHOD__ as a parameter for this function.
+     *
+     * @return $this
+     * @throws \Exception
+     */
     public function dropCache($fullMethodName)
     {
         if (empty($fullMethodName)) {
