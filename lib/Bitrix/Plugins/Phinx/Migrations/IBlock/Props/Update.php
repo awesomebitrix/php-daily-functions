@@ -4,6 +4,14 @@ namespace bfday\PHPDailyFunctions\Bitrix\Plugins\Phinx\Migrations\IBlock\Props;
 
 use bfday\PHPDailyFunctions\Bitrix\Plugins\Phinx\Migrations\Base;
 
+/**
+ * How to use:
+ * - Inside "initCommonData" fill $this->iBlockCode and $this->iBlockProperties with appropriate data
+ * - Run migration
+ *
+ * Class Update
+ * @package bfday\PHPDailyFunctions\Bitrix\Plugins\Phinx\Migrations\IBlock\Props
+ */
 class Update extends Base
 {
     const VALUE_SIMILAR_TO_PROPERTY_CODE = '#SIMILAR_TO_CODE#';
@@ -42,6 +50,8 @@ class Update extends Base
                 }
                 unset($iBlockPropertyField);
             }
+
+            $iBlockPropertyFields["IBLOCK_ID"] = $this->iBlockId;
 
             if ($arIBlockPropertyData === false) {
                 $this->getOutput()
