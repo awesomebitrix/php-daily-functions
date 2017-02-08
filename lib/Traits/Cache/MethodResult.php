@@ -2,6 +2,7 @@
 namespace bfday\PHPDailyFunctions\Traits\Cache;
 
 use bfday\PHPDailyFunctions\Helpers\Strings;
+use bfday\PHPDailyFunctions\Helpers\System;
 
 /**
  * How to use:
@@ -45,6 +46,25 @@ trait MethodResult
         }
         $this->cacheTime = $cacheTime;
 
+        return $this;
+    }
+
+    public function dropCache($fullMethodName)
+    {
+        if (empty($fullMethodName)) {
+            throw new \Exception('$fullMethodName cannot be empty.');
+        }
+
+        $cacheDir = Strings::stringMultipleReplace(
+            $fullMethodName,
+            [
+                '\\' => "_",
+                '::' => "__",
+            ]
+        );
+
+        $cacheDirPath = $_SERVER["DOCUMENT_ROOT"] . "/bitrix/cache" . DIRECTORY_SEPARATOR . $cacheDir;
+        System::deleteDirectory($cacheDirPath);
         return $this;
     }
 

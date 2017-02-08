@@ -1,7 +1,7 @@
 #!/bin/bash
 # fast method to add changes to this repo
-TAG_NAME=v1.13.0
-COMMENT="Added class to manipulate with price \bfday\PHPDailyFunctions\Helpers\Price"
+TAG_NAME=v1.13.1
+COMMENT="Trait MethodResult::dropCache added"
 if [[ "$@" != "" ]]; then
     COMMENT="$@"
 fi

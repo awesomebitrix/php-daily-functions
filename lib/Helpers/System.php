@@ -88,7 +88,7 @@ class System
      * @param $path
      * @return bool
      */
-    function deleteDirectory($path) {
+    public static function deleteDirectory($path) {
         if (!file_exists($path)) {
             return true;
         }
