@@ -63,7 +63,7 @@ trait MethodResult
             ]
         );
 
-        $cacheDirPath = $_SERVER["DOCUMENT_ROOT"] . "/bitrix/cache" . DIRECTORY_SEPARATOR . $cacheDir;
+        $cacheDirPath = realpath($_SERVER["DOCUMENT_ROOT"]) . "/bitrix/cache" . DIRECTORY_SEPARATOR . $cacheDir;
         System::deleteDirectory($cacheDirPath);
         return $this;
     }
