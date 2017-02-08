@@ -3,6 +3,7 @@
 namespace bfday\PHPDailyFunctions\Engine\Cache;
 
 use bfday\PHPDailyFunctions\Helpers\Strings;
+use bfday\PHPDailyFunctions\Helpers\System;
 
 /**
  * How to use:
@@ -27,6 +28,7 @@ use bfday\PHPDailyFunctions\Helpers\Strings;
  */
 class MethodResult
 {
+    const DEFAULT_RELATIVE_CACHE_PATH = "/bitrix/cache";
     /**
      * @var int - number of seconds to keep cache.
      */
@@ -35,6 +37,8 @@ class MethodResult
     private $cacheStorageProvider;
 
     private $cacheUpdateNeeded = false;
+
+    private $cacheDir;
 
     /**
      * @param int $cacheTime
@@ -48,6 +52,32 @@ class MethodResult
             throw new \Exception('$cacheTime cannot be less zero.');
         }
         $this->cacheTime = $cacheTime;
+
+        return $this;
+    }
+
+    /**
+     * @param $fullMethodName - use __METHOD__ as a parameter for this function.
+     *
+     * @return $this
+     * @throws \Exception
+     */
+    public function dropCache()
+    {
+        if (empty($this->cacheDir)) {
+            throw new \Exception('$this->cacheDir is empty.');
+        }
+
+        $cacheDir = Strings::stringMultipleReplace(
+            $fullMethodName,
+            [
+                '\\' => "_",
+                '::' => "__",
+            ]
+        );
+
+        $cacheDirPath = realpath($_SERVER["DOCUMENT_ROOT"]) . static::DEFAULT_RELATIVE_CACHE_PATH . DIRECTORY_SEPARATOR . $this->cacheDir;
+        System::deleteDirectory($cacheDirPath);
 
         return $this;
     }
@@ -70,8 +100,8 @@ class MethodResult
 
     /**
      * @param        $cacheId
-     * @param null   $inputParams    - you can generate $cacheId manually or this method can do it for you using
-     *                               $inputParams
+     * @param null   $inputParams   - you can generate $cacheId manually or this method can do it for you using
+     *                              $inputParams
      *
      * @return mixed|null - NULL if no data for current cache or data from cache
      *
@@ -106,6 +136,7 @@ class MethodResult
                 '/'  => "_",
             ]
         );
+        $this->cacheDir = $cacheDir;
 
         if ($this->cacheStorageProvider->initCache(
             $this->cacheTime,
