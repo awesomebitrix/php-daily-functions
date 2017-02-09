@@ -68,14 +68,6 @@ class MethodResult
             throw new \Exception('$this->cacheDir is empty.');
         }
 
-        $cacheDir = Strings::stringMultipleReplace(
-            $fullMethodName,
-            [
-                '\\' => "_",
-                '::' => "__",
-            ]
-        );
-
         $cacheDirPath = realpath($_SERVER["DOCUMENT_ROOT"]) . static::DEFAULT_RELATIVE_CACHE_PATH . DIRECTORY_SEPARATOR . $this->cacheDir;
         System::deleteDirectory($cacheDirPath);
 
