@@ -2,7 +2,6 @@
 
 namespace bfday\PHPDailyFunctions\Bitrix\Base;
 
-use bfday\PHPDailyFunctions\Helpers\Debug;
 use Bitrix\Main;
 use Bitrix\Main\Localization\Loc;
 
@@ -39,6 +38,11 @@ abstract class CBitrixComponent extends \CBitrixComponent
      * @var string - Salt for component ID for AJAX request
      */
     protected $ajaxComponentIdSalt;
+
+    /**
+     * @var null|string - result of ajax work
+     */
+    protected $ajaxResult = null;
 
     /**
      * @var string - Template page name
@@ -82,7 +86,6 @@ abstract class CBitrixComponent extends \CBitrixComponent
         if ($this->startCache()) {
             $this->executeMain();
 
-            Debug::logVar(__FUNCTION__ . __LINE__);
             if (defined('BX_COMP_MANAGED_CACHE')) {
                 if (empty($this->taggedCacheTags)) {
                     if ($this->isDropTaggedCache) {
@@ -103,12 +106,10 @@ abstract class CBitrixComponent extends \CBitrixComponent
                 }
             }
 
-            Debug::logVar(__FUNCTION__ . __LINE__);
             if ($this->cacheTemplate) {
                 $this->showResult();
             }
 
-            Debug::logVar(__FUNCTION__ . __LINE__);
             $this->writeCache();
         }
 
@@ -462,7 +463,7 @@ abstract class CBitrixComponent extends \CBitrixComponent
     /**
      * Executes final procedures to stop ajax section. Returns true on success.
      * Use it in template like this:
-     * if ($component->ajaxSectionEnd()) return;
+     * fi ($component->ajaxSectionEnd()) return;
      *
      * @param $callback - callable, executes before terminating procedures and only if ajax call to current component
      *
