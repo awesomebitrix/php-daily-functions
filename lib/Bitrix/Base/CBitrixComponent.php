@@ -2,6 +2,7 @@
 
 namespace bfday\PHPDailyFunctions\Bitrix\Base;
 
+use bfday\PHPDailyFunctions\Helpers\Debug;
 use Bitrix\Main;
 use Bitrix\Main\Localization\Loc;
 
@@ -81,6 +82,7 @@ abstract class CBitrixComponent extends \CBitrixComponent
         if ($this->startCache()) {
             $this->executeMain();
 
+            Debug::logVar(__FUNCTION__ . __LINE__);
             if (defined('BX_COMP_MANAGED_CACHE')) {
                 if (empty($this->taggedCacheTags)) {
                     if ($this->isDropTaggedCache) {
@@ -101,10 +103,12 @@ abstract class CBitrixComponent extends \CBitrixComponent
                 }
             }
 
+            Debug::logVar(__FUNCTION__ . __LINE__);
             if ($this->cacheTemplate) {
                 $this->showResult();
             }
 
+            Debug::logVar(__FUNCTION__ . __LINE__);
             $this->writeCache();
         }
 
@@ -206,6 +210,9 @@ abstract class CBitrixComponent extends \CBitrixComponent
      */
     private function startAjax()
     {
+        if ($this->isAjaxForThisComponent()) {
+            $this->arParams['USE_AJAX'] = "Y";
+        }
         if ($this->arParams['USE_AJAX'] !== 'Y') {
             return false;
         }
@@ -288,7 +295,9 @@ abstract class CBitrixComponent extends \CBitrixComponent
      */
     public function showResult()
     {
-        if (!$this->disableComponentTemplate) $this->includeComponentTemplate($this->templatePage);
+        if (!$this->disableComponentTemplate) {
+            $this->includeComponentTemplate($this->templatePage);
+        }
     }
 
     /**
@@ -392,7 +401,7 @@ abstract class CBitrixComponent extends \CBitrixComponent
     }
 
     /**
-     * Use it before [$this->startCache].
+     * Use it before [$this->startCache], for example in [onPrepareComponentParams].
      *
      * @param boolean $val
      */
@@ -428,5 +437,45 @@ abstract class CBitrixComponent extends \CBitrixComponent
     public function setIsShowExceptionMsgToUser($val = true)
     {
         $this->isShowExceptionMsgToUser = $val;
+    }
+
+    public function isAjaxForThisComponent()
+    {
+        return $_REQUEST['bxajaxid'] == $this->arParams['AJAX_ID'];
+    }
+
+    /**
+     * Executes initial procedures to start ajax section
+     *
+     * @return bool - true if successfully started
+     */
+    public function ajaxSectionBegin()
+    {
+        if ($this->isAjaxForThisComponent()) {
+            global $APPLICATION;
+            $APPLICATION->RestartBuffer();
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Executes final procedures to stop ajax section. Returns true on success.
+     * Use it in template like this:
+     * if ($component->ajaxSectionEnd()) return;
+     *
+     * @param $callback - callable, executes before terminating procedures and only if ajax call to current component
+     *
+     * @return bool
+     */
+    public function ajaxSectionEnd($callback = null)
+    {
+        if ($this->isAjaxForThisComponent()) {
+            if ($callback !== null && is_callable($callback)) {
+                call_user_func($callback);
+            }
+            return true;
+        }
+        return false;
     }
 }
