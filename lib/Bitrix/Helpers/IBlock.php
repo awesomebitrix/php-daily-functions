@@ -74,7 +74,7 @@ class IBlock
                 ;
                 foreach ($arIBlocks as $arIBlock) {
                     if (isset($arIBlockCodesIDs[$arIBlock['CODE']])) {
-                        throw new \Exception("There more than 1 IBlock with CODE={$arIBlock['CODE']}. This function works only with unique codes");
+                        throw new \Exception("There more than 1 IBlock with CODE={$arIBlock['CODE']}. This function works only when all IBlocks have unique codes.");
                     }
                     $arIBlockCodesIDs[$arIBlock['CODE']] = $arIBlock['ID'];
                     if (($k = array_search($arIBlock['CODE'], $codes)) !== false) {
