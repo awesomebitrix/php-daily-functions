@@ -19,6 +19,8 @@ use bfday\PHPDailyFunctions\Helpers\System;
  *
  * Class ObjectMethodResultCache
  * @package bfday\PHPDailyFunctions\Traits
+ *
+ * @deprecated instead use \php-daily-functions\lib\Engine\Cache\MethodResult.php
  */
 trait MethodResult
 {
