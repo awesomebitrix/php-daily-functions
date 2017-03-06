@@ -95,6 +95,16 @@ class Arrays
         $ar = $value;
     }
 
+    /**
+     * Gets all array values by SpecialKey
+     *
+     * @param        $ar
+     * @param        $specialKey
+     * @param string $keySplitter
+     *
+     * @return array - empty if no values found
+     * @throws \ErrorException
+     */
     public static function getAllValuesBySpecialKey(&$ar, $specialKey, $keySplitter = '.')
     {
         static::init();
