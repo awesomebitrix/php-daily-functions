@@ -15,6 +15,7 @@ class Date
     const DATE_FORMAT_DATABASE = 'Y-m-d H:i:s';
     const DATE_FORMAT_DATABASE_NO_TIME = 'Y-m-d';
     const DATE_FORMAT_IBLOCK_ELEMENT_PROPERTY = 'd.m.Y H:i:s';
+    const DATE_FORMAT_IBLOCK_ELEMENT_PROPERTY_NO_TIME = 'd.m.Y';
 
     protected static $dateFormats;
 
@@ -39,6 +40,7 @@ class Date
             static::DATE_FORMAT_DATABASE,
             static::DATE_FORMAT_DATABASE_NO_TIME,
             static::DATE_FORMAT_IBLOCK_ELEMENT_PROPERTY,
+            static::DATE_FORMAT_IBLOCK_ELEMENT_PROPERTY_NO_TIME,
         ];
         return true;
     }
