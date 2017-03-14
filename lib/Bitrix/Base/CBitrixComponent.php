@@ -17,15 +17,16 @@ Loc::loadMessages(__FILE__);
  *     "AJAX_OPTION_HISTORY" => "N",
  *     "AJAX_OPTION_ADDITIONAL" => "statistics",
  * ],
+ * by default "AJAX_PARAM_NAME" => "compid", but you can change it (but why?)
  *
  * Class CBitrixComponent
  * @package bfday\PHPDailyFunctions\Bitrix\Base
  */
 abstract class CBitrixComponent extends \CBitrixComponent
 {
-    //ToDo: refactor is needed. remove logical duplicates of this params. and this error accompanying AJAX mode check error
-    const AJAX__PARAM_NAME = "bxajaxid";
     const AJAX__COMPONENT_PARAM_NAME = "compid";
+
+    const AJAX__COMPONENT_CONTAINER__PREFIX = "comp_";
 
     /**
      * @var array - default values for $arParams var
@@ -183,6 +184,9 @@ abstract class CBitrixComponent extends \CBitrixComponent
      */
     protected function init()
     {
+        if (empty($this->arParams['AJAX_PARAM_NAME'])) {
+            $this->arParams['AJAX_PARAM_NAME'] = static::AJAX__COMPONENT_PARAM_NAME;
+        }
         // init default values for arParams if corresponding values are empty
         $this->arParams = array_replace_recursive($this->arParamsDefaults, $this->arParams);
         return true;
@@ -235,22 +239,11 @@ abstract class CBitrixComponent extends \CBitrixComponent
      */
     private function startAjax()
     {
-        if ($this->isAjaxForThisComponent()) {
-            $this->arParams['USE_AJAX'] = "Y";
-        }
-        if ($this->arParams['USE_AJAX'] !== 'Y') {
-            return false;
-        }
-
-        if (strlen($this->arParams['AJAX_PARAM_NAME']) <= 0) {
-            $this->arParams['AJAX_PARAM_NAME'] = static::AJAX__COMPONENT_PARAM_NAME;
-        }
-
         if (strlen($this->arParams['AJAX_COMPONENT_ID']) <= 0) {
             $this->arParams['AJAX_COMPONENT_ID'] = \CAjax::GetComponentID($this->getName(), $this->getTemplateName(), $this->ajaxComponentIdSalt);
         }
 
-        if ($this->isAjax()) {
+        if ($this->isAjaxForThisComponent()) {
             global $APPLICATION;
 
             if ($this->arParams['AJAX_HEAD_RELOAD'] === 'Y') {
@@ -266,6 +259,8 @@ abstract class CBitrixComponent extends \CBitrixComponent
             if (strlen($this->arParams['AJAX_TEMPLATE_PAGE']) > 0) {
                 $this->templatePage = basename($this->arParams['AJAX_TEMPLATE_PAGE']);
             }
+        } else {
+            return false;
         }
 
         return true;
@@ -308,7 +303,7 @@ abstract class CBitrixComponent extends \CBitrixComponent
      */
     private function stopAjax()
     {
-        if ($this->isAjax() && $this->arParams['USE_AJAX'] === 'Y') {
+        if ($this->isAjaxForThisComponent()/* && $this->arParams['USE_AJAX'] === 'Y'*/) {
             exit;
         }
     }
@@ -378,26 +373,6 @@ abstract class CBitrixComponent extends \CBitrixComponent
     }
 
     /**
-     * Is AJAX request
-     *
-     * @return bool
-     */
-    public function isAjax()
-    {
-        if (
-            strlen($this->arParams['AJAX_COMPONENT_ID']) > 0
-            && strlen($this->arParams['AJAX_PARAM_NAME']) > 0
-            && $_REQUEST[$this->arParams['AJAX_PARAM_NAME']] === $this->arParams['AJAX_COMPONENT_ID']
-            && isset($_SERVER['HTTP_X_REQUESTED_WITH'])
-            && strtolower($_SERVER['HTTP_X_REQUESTED_WITH'])
-        ) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * Adds (pushes element to array) additional ID to cache
      *
      * @param mixed $id
@@ -464,9 +439,11 @@ abstract class CBitrixComponent extends \CBitrixComponent
         $this->isShowExceptionMsgToUser = $val;
     }
 
+    // AJAX functionality
+
     public function isAjaxForThisComponent()
     {
-        return $_REQUEST[static::AJAX__PARAM_NAME] == $this->arParams['AJAX_ID'];
+        return $_REQUEST[$this->getAjaxParamNameForHttpQuery()] == $this->getAjaxId();
     }
 
     /**
@@ -486,7 +463,7 @@ abstract class CBitrixComponent extends \CBitrixComponent
 
     /**
      * Executes final procedures to stop ajax section. Returns true on success.
-     * Use it in template like this:
+     * Use it in template (to markup ajax section) like this:
      * if ($component->ajaxSectionEnd()) return;
      *
      * @param $callback - callable, executes before terminating procedures and only if ajax call to current component
@@ -502,5 +479,31 @@ abstract class CBitrixComponent extends \CBitrixComponent
             return true;
         }
         return false;
+    }
+
+    public function getAjaxId()
+    {
+        if (empty($this->arParams["AJAX_ID"])) {
+            throw new \Exception('$this->arParams["AJAX_ID"] should be filled. Maybe you call this function in a wrong place');
+        }
+        return $this->arParams["AJAX_ID"];
+    }
+
+    public function getAjaxContainerId()
+    {
+        return static::AJAX__COMPONENT_CONTAINER__PREFIX . $this->getAjaxId();
+    }
+
+    public function getAjaxParamNameForHttpQuery()
+    {
+        if (empty($this->arParams["AJAX_PARAM_NAME"])) {
+            throw new \Exception('$this->arParams["AJAX_PARAM_NAME"] should be filled. Maybe you call this function in a wrong place');
+        }
+        return $this->arParams["AJAX_PARAM_NAME"];
+    }
+
+    public function getAjaxParamAndValueForHttpQuery()
+    {
+        return $this->getAjaxParamNameForHttpQuery() . "=" . $this->getAjaxId();
     }
 }
