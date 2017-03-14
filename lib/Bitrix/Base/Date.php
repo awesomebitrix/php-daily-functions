@@ -11,6 +11,7 @@ class Date
     const DATE_FORMAT_COMMON_TILL_DAY = 'j F Y';
     const DATE_FORMAT_COMMON_TILL_SECOND = 'j F Y HH:MI:SS';
     const DATE_FORMAT_COMMON_DOTTED = 'DD.MM.YYYY HH:MI:SS';
+    const DATE_FORMAT_COMMON_DOTTED_NO_TIME = 'DD.MM.YYYY';
     const DATE_FORMAT_DATABASE = 'Y-m-d H:i:s';
     const DATE_FORMAT_IBLOCK_ELEMENT_PROPERTY = 'd.m.Y H:i:s';
 
@@ -33,7 +34,9 @@ class Date
             static::DATE_FORMAT_COMMON_TILL_DAY,
             static::DATE_FORMAT_COMMON_TILL_SECOND,
             static::DATE_FORMAT_COMMON_DOTTED,
+            static::DATE_FORMAT_COMMON_DOTTED_NO_TIME,
             static::DATE_FORMAT_DATABASE,
+            static::DATE_FORMAT_IBLOCK_ELEMENT_PROPERTY,
         ];
         return true;
     }

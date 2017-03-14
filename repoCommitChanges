@@ -1,6 +1,6 @@
 #!/bin/bash
 # fast method to add changes to this repo
-TAG_NAME=v1.14.1
+TAG_NAME=v1.14.2
 COMMENT="bfday\PHPDailyFunctions\Bitrix\Helpers\IBlock::getIBlockIDsByCodes additional error handler + docs"
 if [[ "$@" != "" ]]; then
     COMMENT="$@"
