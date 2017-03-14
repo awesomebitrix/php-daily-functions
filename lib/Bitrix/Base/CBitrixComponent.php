@@ -487,7 +487,7 @@ abstract class CBitrixComponent extends \CBitrixComponent
     public function getAjaxId()
     {
         if (empty($this->arParams["AJAX_ID"])) {
-            throw new \Exception('$this->arParams["AJAX_ID"] should be filled. Maybe you call this function in a wrong place');
+            throw new \Exception('arParams["AJAX_ID"] should be filled. Maybe you call this function in a wrong place');
         }
         return $this->arParams["AJAX_ID"];
     }
@@ -500,7 +500,7 @@ abstract class CBitrixComponent extends \CBitrixComponent
     public function getAjaxParamNameForHttpQuery()
     {
         if (empty($this->arParams["AJAX_PARAM_NAME"])) {
-            throw new \Exception('$this->arParams["AJAX_PARAM_NAME"] should be filled. Maybe you call this function in a wrong place');
+            throw new \Exception('arParams["AJAX_PARAM_NAME"] should be filled. Maybe you call this function in a wrong place');
         }
         return $this->arParams["AJAX_PARAM_NAME"];
     }
