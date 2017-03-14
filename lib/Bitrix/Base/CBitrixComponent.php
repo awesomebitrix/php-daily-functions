@@ -23,6 +23,9 @@ Loc::loadMessages(__FILE__);
  */
 abstract class CBitrixComponent extends \CBitrixComponent
 {
+    const AJAX__PARAM_NAME = "bxajaxid";
+    const AJAX__COMPONENT_PARAM_NAME = "compid";
+
     /**
      * @var array - default values for $arParams var
      */
@@ -239,7 +242,7 @@ abstract class CBitrixComponent extends \CBitrixComponent
         }
 
         if (strlen($this->arParams['AJAX_PARAM_NAME']) <= 0) {
-            $this->arParams['AJAX_PARAM_NAME'] = 'compid';
+            $this->arParams['AJAX_PARAM_NAME'] = static::AJAX__COMPONENT_PARAM_NAME;
         }
 
         if (strlen($this->arParams['AJAX_COMPONENT_ID']) <= 0) {
