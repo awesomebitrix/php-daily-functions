@@ -23,6 +23,7 @@ Loc::loadMessages(__FILE__);
  */
 abstract class CBitrixComponent extends \CBitrixComponent
 {
+    //ToDo: refactor is needed
     const AJAX__PARAM_NAME = "bxajaxid";
     const AJAX__COMPONENT_PARAM_NAME = "compid";
 
@@ -465,7 +466,7 @@ abstract class CBitrixComponent extends \CBitrixComponent
 
     public function isAjaxForThisComponent()
     {
-        return $_REQUEST['bxajaxid'] == $this->arParams['AJAX_ID'];
+        return $_REQUEST[static::AJAX__PARAM_NAME] == $this->arParams['AJAX_ID'];
     }
 
     /**
