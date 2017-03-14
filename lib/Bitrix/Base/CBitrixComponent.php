@@ -23,7 +23,7 @@ Loc::loadMessages(__FILE__);
  */
 abstract class CBitrixComponent extends \CBitrixComponent
 {
-    //ToDo: refactor is needed. remove logic duplicates
+    //ToDo: refactor is needed. remove logical duplicates
     const AJAX__PARAM_NAME = "bxajaxid";
     const AJAX__COMPONENT_PARAM_NAME = "compid";
 
