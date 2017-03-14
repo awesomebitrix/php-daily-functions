@@ -7,6 +7,20 @@ use Bitrix\Main\Localization\Loc;
 
 Loc::loadMessages(__FILE__);
 
+/**
+ * Base class for component.
+ *
+ * Basic PARAMS for ajax mode:
+ * [
+ *     "AJAX_MODE" => "Y",
+ *     "AJAX_OPTION_JUMP" => "N",
+ *     "AJAX_OPTION_HISTORY" => "N",
+ *     "AJAX_OPTION_ADDITIONAL" => "statistics",
+ * ],
+ *
+ * Class CBitrixComponent
+ * @package bfday\PHPDailyFunctions\Bitrix\Base
+ */
 abstract class CBitrixComponent extends \CBitrixComponent
 {
     /**
@@ -157,6 +171,12 @@ abstract class CBitrixComponent extends \CBitrixComponent
         return true;
     }
 
+    /**
+     * Init method. Executes before cache.
+     * Use it if you need $this->arParams available but still not in cache section
+     *
+     * @return bool
+     */
     protected function init()
     {
         // init default values for arParams if corresponding values are empty
@@ -374,7 +394,7 @@ abstract class CBitrixComponent extends \CBitrixComponent
     }
 
     /**
-     * Add additional ID to cache
+     * Adds (pushes element to array) additional ID to cache
      *
      * @param mixed $id
      */
