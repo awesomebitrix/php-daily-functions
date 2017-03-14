@@ -463,7 +463,7 @@ abstract class CBitrixComponent extends \CBitrixComponent
     /**
      * Executes final procedures to stop ajax section. Returns true on success.
      * Use it in template like this:
-     * fi ($component->ajaxSectionEnd()) return;
+     * if ($component->ajaxSectionEnd()) return;
      *
      * @param $callback - callable, executes before terminating procedures and only if ajax call to current component
      *
