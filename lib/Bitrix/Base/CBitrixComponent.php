@@ -73,7 +73,7 @@ abstract class CBitrixComponent extends \CBitrixComponent
      */
     private $disableComponentTemplate = false;
 
-    const SEPARATE_CACHE_FOR_EVERY_USER_FOLDER_PREFIX = 'user';
+    const SEPARATE_CACHE_FOR_EVERY_USER_FOLDER_PREFIX = "user";
     /**
      * Creates additional cache folder for every user.
      * Uses SEPARATE_CACHE_FOR_EVERY_USER_FOLDER_PREFIX to set prefix to that folder.
@@ -105,7 +105,7 @@ abstract class CBitrixComponent extends \CBitrixComponent
         if ($this->startCache()) {
             $this->executeMain();
 
-            if (defined('BX_COMP_MANAGED_CACHE')) {
+            if (defined("BX_COMP_MANAGED_CACHE")) {
                 if (empty($this->taggedCacheTags)) {
                     if ($this->isDropTaggedCache) {
                         Main\Application::getInstance()->getTaggedCache()->abortTagCache();
@@ -169,7 +169,7 @@ abstract class CBitrixComponent extends \CBitrixComponent
 
         foreach ($this->requiredModules as $module) {
             if (!Main\Loader::includeModule($module)) {
-                throw new Main\LoaderException(Loc::getMessage('NIK_FAILED_INCLUDE_MODULE', ['#MODULE#' => $module]));
+                throw new Main\LoaderException(Loc::getMessage("NIK_FAILED_INCLUDE_MODULE", ["#MODULE#" => $module]));
             }
         }
 
@@ -184,8 +184,8 @@ abstract class CBitrixComponent extends \CBitrixComponent
      */
     protected function init()
     {
-        if (empty($this->arParams['AJAX_PARAM_NAME'])) {
-            $this->arParams['AJAX_PARAM_NAME'] = static::AJAX__COMPONENT_PARAM_NAME;
+        if (empty($this->arParams["AJAX_PARAM_NAME"])) {
+            $this->arParams["AJAX_PARAM_NAME"] = static::AJAX__COMPONENT_PARAM_NAME;
         }
         // init default values for arParams if corresponding values are empty
         $this->arParams = array_replace_recursive($this->arParamsDefaults, $this->arParams);
@@ -201,12 +201,12 @@ abstract class CBitrixComponent extends \CBitrixComponent
     {
         global $USER, $CACHE_MANAGER;
 
-        if ($this->arParams['CACHE_TYPE'] && $this->arParams['CACHE_TYPE'] !== 'N' && $this->arParams['CACHE_TIME'] > 0) {
+        if ($this->arParams["CACHE_TYPE"] && $this->arParams["CACHE_TYPE"] !== "N" && $this->arParams["CACHE_TIME"] > 0) {
             if ($this->templatePage) {
                 $this->cacheAdditionalId[] = $this->templatePage;
             }
 
-            if ($this->arParams['CACHE_GROUPS'] === 'Y') {
+            if ($this->arParams["CACHE_GROUPS"] === "Y") {
                 $this->cacheAdditionalId[] = $USER->GetGroups();
             }
 
@@ -224,7 +224,7 @@ abstract class CBitrixComponent extends \CBitrixComponent
                 $this->addCacheAdditionalId($dir);
             }
 
-            if ($this->startResultCache($this->arParams['CACHE_TIME'], $this->cacheAdditionalId, $this->cacheDir)) {
+            if ($this->startResultCache($this->arParams["CACHE_TIME"], $this->cacheAdditionalId, $this->cacheDir)) {
                 return true;
             } else {
                 return false;
@@ -239,25 +239,28 @@ abstract class CBitrixComponent extends \CBitrixComponent
      */
     private function startAjax()
     {
-        if (strlen($this->arParams['AJAX_COMPONENT_ID']) <= 0) {
-            $this->arParams['AJAX_COMPONENT_ID'] = \CAjax::GetComponentID($this->getName(), $this->getTemplateName(), $this->ajaxComponentIdSalt);
+        if (strlen($this->arParams["AJAX_COMPONENT_ID"]) <= 0) {
+            $this->arParams["AJAX_COMPONENT_ID"] = \CAjax::GetComponentID($this->getName(), $this->getTemplateName(), $this->ajaxComponentIdSalt);
         }
 
         if ($this->isAjaxForThisComponent()) {
             global $APPLICATION;
 
-            if ($this->arParams['AJAX_HEAD_RELOAD'] === 'Y') {
+            // separate cache for ajax mode
+            $this->arParams["IS_IN_AJAX_MODE"] = "Y";
+
+            if ($this->arParams["AJAX_HEAD_RELOAD"] === "Y") {
                 $APPLICATION->ShowAjaxHead();
             } else {
                 $APPLICATION->RestartBuffer();
             }
 
-            if ($this->arParams['AJAX_TYPE'] === 'JSON') {
-                header('Content-Type: application/json');
+            if ($this->arParams["AJAX_TYPE"] === "JSON") {
+                header("Content-Type: application/json");
             }
 
-            if (strlen($this->arParams['AJAX_TEMPLATE_PAGE']) > 0) {
-                $this->templatePage = basename($this->arParams['AJAX_TEMPLATE_PAGE']);
+            if (strlen($this->arParams["AJAX_TEMPLATE_PAGE"]) > 0) {
+                $this->templatePage = basename($this->arParams["AJAX_TEMPLATE_PAGE"]);
             }
         } else {
             return false;
@@ -303,7 +306,7 @@ abstract class CBitrixComponent extends \CBitrixComponent
      */
     private function stopAjax()
     {
-        if ($this->isAjaxForThisComponent()/* && $this->arParams['USE_AJAX'] === 'Y'*/) {
+        if ($this->isAjaxForThisComponent()) {
             exit;
         }
     }
@@ -328,8 +331,8 @@ abstract class CBitrixComponent extends \CBitrixComponent
      */
     public function return404()
     {
-        @define('ERROR_404', 'Y');
-        \CHTTP::SetStatus('404 Not Found');
+        @define("ERROR_404", "Y");
+        \CHTTP::SetStatus("404 Not Found");
     }
 
     /**
@@ -342,7 +345,7 @@ abstract class CBitrixComponent extends \CBitrixComponent
     protected function catchException(\Exception $exception)
     {
         $this->abortCache();
-        if ($GLOBALS['USER']->IsAdmin()) {
+        if ($GLOBALS["USER"]->IsAdmin()) {
             $this->showExceptionAdmin($exception);
         } else {
             if ($this->isShowExceptionMsgToUser) {
@@ -358,7 +361,7 @@ abstract class CBitrixComponent extends \CBitrixComponent
      */
     protected function showExceptionUser(\Exception $exception)
     {
-        ShowError(Loc::getMessage('NIK_COMPONENT_ERROR_OCCURED'));
+        ShowError(Loc::getMessage("NIK_COMPONENT_ERROR_OCCURED"));
     }
 
     /**
