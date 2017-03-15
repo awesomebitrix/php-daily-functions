@@ -10,10 +10,10 @@ use bfday\PHPDailyFunctions\Helpers\System;
  * ```
  * $cache = new \bfday\PHPDailyFunctions\Engine\Cache\MethodResult();
  * $newData = ['newData'];
- * if (($arIBlockCodesIDs = $cache
+ * if (($dataFromCache = $cache
  *                              ->cacheSetStorageProvider(new \CPHPCache())
  *                              ->setCacheTime(3000)
- *                              ->cacheGetData(null, $input)) === null
+ *                              ->cacheGetData(null, $inputData)) === null
  * ) {
  *      $cache->cacheSaveData($newData);
  * }
