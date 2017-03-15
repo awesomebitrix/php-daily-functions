@@ -11,11 +11,11 @@ use bfday\PHPDailyFunctions\Helpers\System;
  * $cache = new \bfday\PHPDailyFunctions\Engine\Cache\MethodResult();
  * $newData = ['newData'];
  * if (($dataFromCache = $cache
- *                              ->cacheSetStorageProvider(new \CPHPCache())
- *                              ->setCacheTime(3000)
- *                              ->cacheGetData(null, $inputData)) === null
+ *                              ->setStorageProvider(new \CPHPCache())
+ *                              ->setTime(3000)
+ *                              ->getData(null, $inputData)) === null
  * ) {
- *      $cache->cacheSaveData($newData);
+ *      $cache->saveData($newData);
  * }
  * ```
  * ! don't forget to provide canonical view for $newData
@@ -46,7 +46,7 @@ class MethodResult
      * @return $this
      * @throws \Exception
      */
-    public function setCacheTime($cacheTime)
+    public function setTime($cacheTime)
     {
         if (intval($cacheTime) <= 0) {
             throw new \Exception('$cacheTime cannot be less zero.');
@@ -62,7 +62,7 @@ class MethodResult
      * @return $this
      * @throws \Exception
      */
-    public function dropCache()
+    public function drop()
     {
         if (empty($this->cacheDir)) {
             throw new \Exception('$this->cacheDir is empty.');
@@ -80,7 +80,7 @@ class MethodResult
      * @return $this
      * @throws \Exception
      */
-    public function cacheSetStorageProvider($cacheStorageProvider)
+    public function setStorageProvider($cacheStorageProvider)
     {
         if (empty($cacheStorageProvider)) {
             throw new \Exception('$cacheStorageProvider cannot be empty.');
@@ -99,7 +99,7 @@ class MethodResult
      *
      * @throws \Exception
      */
-    public function cacheGetData($cacheId = null, $inputParams = null)
+    public function getData($cacheId = null, $inputParams = null)
     {
         $bTrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
         if (!is_array($bTrace)) {
@@ -110,7 +110,7 @@ class MethodResult
         $bTrace = $bTrace[1];
         $cacheDir = $bTrace["file"] . (isset($bTrace["class"]) ? $bTrace["class"] : "") . "_" . $bTrace["function"];
 
-        $this->cacheCheckData();
+        $this->checkData();
 
         if ($cacheId === null or $cacheId === false) {
             if ($inputParams === false) {
@@ -145,7 +145,7 @@ class MethodResult
         return null;
     }
 
-    private function cacheCheckData()
+    private function checkData()
     {
         if (empty($this->cacheStorageProvider)) {
             throw new \Exception('Before using methods you have to initialize $cacheStorageProvider.');
@@ -163,13 +163,13 @@ class MethodResult
      * @return bool - FALSE on error
      * @throws \Exception
      */
-    public function cacheSaveData($cacheData)
+    public function saveData($cacheData)
     {
         if ($this->cacheUpdateNeeded === false) {
             throw new \Exception('You tried to save data when its not needed.');
         }
 
-        $this->cacheCheckData();
+        $this->checkData();
 
         if ($this->cacheStorageProvider->startDataCache()) {
             $this->cacheStorageProvider->endDataCache($cacheData);
