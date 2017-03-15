@@ -125,15 +125,17 @@ class MethodResult
             [
                 '\\' => "_",
                 '::' => "__",
-                '/'  => "_",
+                '/' => "_",
             ]
         );
         $this->cacheDir = $cacheDir;
 
-        if ($this->cacheStorageProvider->initCache(
-            $this->cacheTime,
-            $cacheId,
-            $cacheDir)
+        if (
+            $this->cacheStorageProvider->initCache(
+                $this->cacheTime,
+                $cacheId,
+                $cacheDir
+            )
         ) {
             $this->cacheUpdateNeeded = false;
 
