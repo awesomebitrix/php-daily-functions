@@ -243,7 +243,7 @@ abstract class CBitrixComponent extends \CBitrixComponent
             $this->arParams["AJAX_COMPONENT_ID"] = \CAjax::GetComponentID($this->getName(), $this->getTemplateName(), $this->ajaxComponentIdSalt);
         }
 
-        if ($this->isAjaxForThisComponent()) {
+        if ($this->isAjax()) {
             global $APPLICATION;
 
             // separate cache for ajax mode
@@ -306,7 +306,7 @@ abstract class CBitrixComponent extends \CBitrixComponent
      */
     private function stopAjax()
     {
-        if ($this->isAjaxForThisComponent()) {
+        if ($this->isAjax()) {
             exit;
         }
     }
@@ -444,7 +444,7 @@ abstract class CBitrixComponent extends \CBitrixComponent
 
     // AJAX functionality
 
-    public function isAjaxForThisComponent()
+    public function isAjax()
     {
         return $_REQUEST[$this->getAjaxParamNameForHttpQuery()] == $this->getAjaxId();
     }
@@ -456,7 +456,7 @@ abstract class CBitrixComponent extends \CBitrixComponent
      */
     public function ajaxSectionBegin()
     {
-        if ($this->isAjaxForThisComponent()) {
+        if ($this->isAjax()) {
             global $APPLICATION;
             $APPLICATION->RestartBuffer();
             return true;
@@ -475,7 +475,7 @@ abstract class CBitrixComponent extends \CBitrixComponent
      */
     public function ajaxSectionEnd($callback = null)
     {
-        if ($this->isAjaxForThisComponent()) {
+        if ($this->isAjax()) {
             if ($callback !== null && is_callable($callback)) {
                 call_user_func($callback);
             }
