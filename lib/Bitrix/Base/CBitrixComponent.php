@@ -361,7 +361,7 @@ abstract class CBitrixComponent extends \CBitrixComponent
      */
     protected function showExceptionUser(\Exception $exception)
     {
-        ShowError(Loc::getMessage("NIK_COMPONENT_ERROR_OCCURED"));
+        ShowError($exception->getMessage());
     }
 
     /**
