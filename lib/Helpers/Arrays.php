@@ -204,7 +204,7 @@ class Arrays
      * @return bool|array - returns required keys
      * @throws \Exception
      */
-    public static function requireKeys($ar, $keys, $isIgnoreCase = false) {
+    public static function requireKeys($ar, $keysCodes, $isIgnoreCase = false) {
         if (!is_array($ar) || !is_array($keys)) {
             throw new \Exception('Params must have array type.');
         }
@@ -214,5 +214,53 @@ class Arrays
         } else {
             return true;
         }
+    }
+
+    /**
+     * ToDo: NOT IMPLEMENTED YET
+     * reorganizes array $ar according $keyStrategy (how to change every key) and $valueStrategy (how to change every value)
+     *
+     * @param $ar array
+     * @param $keyStrategy - when is callable should have format "function($key, $val)"
+     * @param $valueStrategy - when is callable should have format "function($key, $val)"
+     *
+     * @return mixed
+     */
+    public static function reorganize($ar, $keyStrategy = null, $valueStrategy = null)
+    {
+        if (!is_array($ar)) {
+            throw new \Exception('Param $ar must have array type.');
+        }
+
+        if ($keyStrategy === null && $valueStrategy === null) {
+            return $ar;
+        }
+
+        $res = [];
+
+        if ($keyStrategy !== null) {
+            if ($valueStrategy !== null) { // both are not null
+                if (is_callable($keyStrategy)) {
+                    if (is_callable($valueStrategy)) { // both are callable
+
+                    } else { // $valueStrategy not callcable
+
+                    }
+                } else { // $keyStrategy not callable
+                    if (is_callable($valueStrategy)) { // $valueStrategy is callable
+
+                    } else { // both not callable
+                        //
+                    }
+                }
+            } else { // $valueStrategy === null
+            }
+        } elseif ($valueStrategy !== null) {
+
+        } else {
+            throw new \Exception("Some unpredictable error occur in " . __METHOD__);
+        }
+
+        return $res;
     }
 }
