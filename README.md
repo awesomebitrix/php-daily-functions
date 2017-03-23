@@ -1,6 +1,6 @@
 PHP daily functions to help to developer
 =
-This functions helps in many situations - watch phpDoc to it.
+This functions helps in many situations - watch phpDoc for them.
 
 How to install
 -
