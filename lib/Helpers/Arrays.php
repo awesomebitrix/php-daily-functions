@@ -57,6 +57,22 @@ class Arrays
         return $ar;
     }
 
+    public static function setValueBySpecialKey(&$ar, $specialKey, $value, $keySplitter = '.')
+    {
+        static::init();
+
+        if (strlen($keySplitter) == 0) throw new \ErrorException('Key splitter cannot be empty.');
+        if (!is_array($ar)) throw new \ErrorException('$ar param must be an array type.');
+        $specialKeyArray = explode($keySplitter, $specialKey);
+        foreach ($specialKeyArray as $specialKeyItem) {
+            if (strlen($specialKeyItem) == 0) throw new \ErrorException('Key item cannot be empty.');
+            if (!isset($ar[$specialKeyItem])) $ar[$specialKeyItem] = [];
+            if (!is_array($ar[$specialKeyItem])) throw new \ErrorException('Value should be of array type.');
+            $ar =& $ar[$specialKeyItem];
+        }
+        $ar = $value;
+    }
+
     /**
      * @param $ar array -
      * @param $specialKey string - string like 'first.second.third' converts to ['first']['second']['third'].
@@ -74,25 +90,9 @@ class Arrays
         foreach ($specialKeyArray as $specialKeyItem) {
             if (strlen($specialKeyItem) == 0) throw new \ErrorException('Key item cannot be empty.');
             if (!isset($ar[$specialKeyItem])) return null;
-            $ar =& $ar[$specialKeyItem];
+            $ar =&$ar[$specialKeyItem];
         }
         return $ar;
-    }
-
-    public static function setValueBySpecialKey(&$ar, $specialKey, $value, $keySplitter = '.')
-    {
-        static::init();
-
-        if (strlen($keySplitter) == 0) throw new \ErrorException('Key splitter cannot be empty.');
-        if (!is_array($ar)) throw new \ErrorException('$ar param must be an array type.');
-        $specialKeyArray = explode($keySplitter, $specialKey);
-        foreach ($specialKeyArray as $specialKeyItem) {
-            if (strlen($specialKeyItem) == 0) throw new \ErrorException('Key item cannot be empty.');
-            if (!isset($ar[$specialKeyItem])) $ar[$specialKeyItem] = [];
-            if (!is_array($ar[$specialKeyItem])) throw new \ErrorException('Value should be of array type.');
-            $ar =& $ar[$specialKeyItem];
-        }
-        $ar = $value;
     }
 
     /**
@@ -113,7 +113,7 @@ class Arrays
         $values = [];
         foreach ($ar as $item) {
             $value = static::getValueBySpecialKey($item, $specialKey);
-            if (empty($value)) return $values;
+            if (!isset($value)) return $values;
             $values[] = static::getValueBySpecialKey($item, $specialKey);
         }
         return $values;
