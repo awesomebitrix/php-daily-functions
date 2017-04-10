@@ -7,14 +7,16 @@ use Bitrix\Main\Loader;
 class Date
 {
     protected static $staticDataInitiated = false;
-    
-    const DATE_FORMAT_COMMON_TILL_DAY = 'j F Y';
-    const DATE_FORMAT_COMMON_TILL_SECOND = 'j F Y HH:MI:SS';
-    const DATE_FORMAT_COMMON_DOTTED = 'DD.MM.YYYY HH:MI:SS';
-    const DATE_FORMAT_COMMON_DOTTED_NO_TIME = 'DD.MM.YYYY';
-    const DATE_FORMAT_DATABASE = 'Y-m-d H:i:s';
-    const DATE_FORMAT_DATABASE_NO_TIME = 'Y-m-d';
-    const DATE_FORMAT_IBLOCK_ELEMENT_PROPERTY = 'd.m.Y H:i:s';
+
+    const DATE_FORMAT_COMMON_TILL_DAY                 = 'j F Y';
+    const DATE_FORMAT_COMMON_TILL_SECOND              = 'j F Y HH:MI:SS';
+    const DATE_FORMAT_COMMON_DOTTED                   = 'DD.MM.YYYY HH:MI:SS';
+    const DATE_FORMAT_COMMON_DOTTED_REVERSE           = 'YYYY.MM.DD HH:MI:SS';
+    const DATE_FORMAT_COMMON_DOTTED_NO_TIME           = 'DD.MM.YYYY';
+    const DATE_FORMAT_COMMON_DOTTED_NO_TIME_REVERSE   = 'YYYY.MM.DD';
+    const DATE_FORMAT_DATABASE                        = 'Y-m-d H:i:s';
+    const DATE_FORMAT_DATABASE_NO_TIME                = 'Y-m-d';
+    const DATE_FORMAT_IBLOCK_ELEMENT_PROPERTY         = 'd.m.Y H:i:s';
     const DATE_FORMAT_IBLOCK_ELEMENT_PROPERTY_NO_TIME = 'd.m.Y';
 
     protected static $dateFormats;
