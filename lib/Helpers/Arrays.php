@@ -198,7 +198,7 @@ class Arrays
         }
 
         $quantityFound = 0;
-        $foundItems = null;
+        $foundItems = [];
 
         foreach ($ar as $item) {
             switch ($filterLogic) {
@@ -235,7 +235,7 @@ class Arrays
             }
         }
 
-        return $foundItems;
+        return count($foundItems) == 0 ? null : $foundItems;
     }
 
     /**
