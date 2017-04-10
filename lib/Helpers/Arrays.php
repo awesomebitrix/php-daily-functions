@@ -196,8 +196,8 @@ class Arrays
         if (!in_array($filterLogic, static::$filterLogics)) {
             throw new \Exception('Wrong value for $filterLogic param - use class constants to setup appropriate value');
         }
-        $quantityFound = 0;
 
+        $quantityFound = 0;
         $foundItems = null;
 
         foreach ($ar as $item) {
