@@ -174,7 +174,7 @@ class Arrays
      * @param int      $quantityToFind
      * @param int|null $filterLogic
      *
-     * @return array|null
+     * @return array|null array of items or null
      * @throws \Exception
      */
     public static function getValueByArrayFilter($ar, $arrayFilter, $quantityToFind = 1, $filterLogic = null)
