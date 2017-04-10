@@ -1,7 +1,7 @@
 #!/bin/bash
 # fast method to add changes to this repo
-TAG_NAME=v1.14.3
-COMMENT="bug fix in \bfday\PHPDailyFunctions\Helpers\Arrays::getAllValuesBySpecialKey"
+TAG_NAME=v1.14.4
+COMMENT="new method \bfday\PHPDailyFunctions\Helpers\Arrays::getValueByArrayFilter"
 if [[ "$@" != "" ]]; then
     COMMENT="$@"
 fi
