@@ -306,21 +306,21 @@ class Arrays
     }
 
     /**
-     * Checks array $ar that he has all keys from $keys
+     * Checks array $ar have keys from $keysCodes and returns redundant keys
      *
      * @param array $ar   - array to examine
-     * @param array $keys - array keys to examine
+     * @param array $keysCodes - array keys to examine
      * @param bool  $isIgnoreCase
      *
-     * @return bool|array - returns required keys
+     * @return bool|array - array of redundant keys
      * @throws \Exception
      */
-    public static function consistOfKeys($ar, $keys, $isIgnoreCase = false)
+    public static function whatKeysAreRedundant($ar, $keysCodes, $isIgnoreCase = false)
     {
-        if (!is_array($ar) || !is_array($keys)) {
+        if (!is_array($ar) || !is_array($keysCodes)) {
             throw new \Exception('Params must have array type.');
         }
-        $diff = array_diff(array_keys($ar), $keys);
+        $diff = array_diff(array_keys($ar), $keysCodes);
         if (count($diff)) {
             return $diff;
         } else {
@@ -329,21 +329,23 @@ class Arrays
     }
 
     /**
-     * Checks array $ar that he contains all keys from $keys
+     * Checks array $ar contains all keys from $keysCodes and returns missing keys
+     *
+     * $isIgnoreCase - not implemented yet
      *
      * @param array $ar   - array to examine
-     * @param array $keys - array keys to examine
+     * @param array $keysCodes - array keys to examine
      * @param bool  $isIgnoreCase
      *
-     * @return bool|array - returns required keys
+     * @return bool|array - array of missing keys
      * @throws \Exception
      */
-    public static function requireKeys($ar, $keysCodes, $isIgnoreCase = false)
+    public static function whatkeysAreMissing($ar, $keysCodes, $isIgnoreCase = false)
     {
-        if (!is_array($ar) || !is_array($keys)) {
+        if (!is_array($ar) || !is_array($keysCodes)) {
             throw new \Exception('Params must have array type.');
         }
-        $diff = array_diff($keys, array_keys($ar));
+        $diff = array_diff($keysCodes, array_keys($ar));
         if (count($diff)) {
             return $diff;
         } else {
@@ -352,15 +354,15 @@ class Arrays
     }
 
     /**
-     * ToDo: NOT IMPLEMENTED YET
-     * reorganizes array $ar according $keyStrategy (how to change every key) and $valueStrategy (how to change every
+     * Reorganizes array $ar according $keyStrategy (how to change every key) and $valueStrategy (how to change every
      * value)
      *
      * @param $ar            array
-     * @param $keyStrategy   - when is callable should have format "function($key, $val)"
-     * @param $valueStrategy - when is callable should have format "function($key, $val)"
+     * @param $keyStrategy   null|callable  - when is callable should have format "function($key, $val)"
+     * @param $valueStrategy null|callable - when is callable should have format "function($key, $val)"
      *
-     * @return mixed
+     * @return array - false if no changes were applied
+     * @throws \Exception
      */
     public static function reorganize($ar, $keyStrategy = null, $valueStrategy = null)
     {
@@ -368,33 +370,30 @@ class Arrays
             throw new \Exception('Param $ar must have array type.');
         }
 
-        if ($keyStrategy === null && $valueStrategy === null) {
-            return $ar;
+        $res = [];
+        switch (true) {
+            case ($keyStrategy === null && $valueStrategy === null):
+                return $ar;
+                break;
+            case (is_callable($keyStrategy) && $valueStrategy === null):
+                $valueStrategy = function ($key, $value) {
+                    return $value;
+                };
+                break;
+            case ($keyStrategy === null && is_callable($valueStrategy)):
+                $keyStrategy = function ($key, $value = null) {
+                    return $key;
+                };
+                break;
+            case (is_callable($keyStrategy) && is_callable($valueStrategy)):
+                break;
+
+            default:
+                throw new \Exception('$keyStrategy and $valueStrategy must contain null value or to be callable');
         }
 
-        $res = [];
-
-        if ($keyStrategy !== null) {
-            if ($valueStrategy !== null) { // both are not null
-                if (is_callable($keyStrategy)) {
-                    if (is_callable($valueStrategy)) { // both are callable
-
-                    } else { // $valueStrategy not callcable
-
-                    }
-                } else { // $keyStrategy not callable
-                    if (is_callable($valueStrategy)) { // $valueStrategy is callable
-
-                    } else { // both not callable
-                        //
-                    }
-                }
-            } else { // $valueStrategy === null
-            }
-        } elseif ($valueStrategy !== null) {
-
-        } else {
-            throw new \Exception("Some unpredictable error occur in " . __METHOD__);
+        foreach ($ar as $key => $value) {
+            $res[$keyStrategy($key, $value)] = $valueStrategy($key, $value);
         }
 
         return $res;
