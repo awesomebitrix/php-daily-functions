@@ -40,7 +40,7 @@ class Common
      * Plural form founder. Takes $number and $pluralForms of words and outputs resulting plural form.
      *
      * @param $number - number to pluralize. Ex.: 100
-     * @param $pluralForms - tree plural forms to substitute after $number. Ex.: array('день','дня','дней')
+     * @param $pluralForms - three plural forms to substitute after $number. Ex.: array('день','дня','дней'), array('арбуз', 'арбуза', 'арбузов')
      * @return string - plural form.
      * @throws \Exception
      */
@@ -49,20 +49,8 @@ class Common
         if (!is_int($number)) throw new \Exception('Variable $number in  "' . __METHOD__ . '" should be an integer.');
         if (!is_array($pluralForms)) throw new \Exception('Variable $forms in "' . __METHOD__ . '" should be an array.');
         if (!(count($pluralForms) == 3)) throw new \Exception('Variable $forms in "' . __METHOD__ . '" should contain three elements.');
-        $lastDigit = $number % 10;
-        $result = '';
-        switch ($lastDigit) {
-            case in_array($lastDigit, array(1)):
-                $result = $pluralForms[0];
-                break;
-            case in_array($lastDigit, array(2, 3, 4)):
-                $result = $pluralForms[1];
-                break;
-            case in_array($lastDigit, array(5, 6, 7, 8, 9, 0)):
-                $result = $pluralForms[2];
-                break;
-        }
-        return $result;
+
+        return $number % 10 == 1 && $number % 100 != 11 ? $pluralForms[0] : ($number % 10 >= 2 && $number % 10 <= 4 && ($number % 100 < 10 || $number % 100 >= 20) ? $pluralForms[1] : $pluralForms[2]);
     }
 
     /**
