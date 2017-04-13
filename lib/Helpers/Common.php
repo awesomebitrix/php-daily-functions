@@ -50,7 +50,7 @@ class Common
         if (!is_array($pluralForms)) throw new \Exception('Variable $forms in "' . __METHOD__ . '" should be an array.');
         if (!(count($pluralForms) == 3)) throw new \Exception('Variable $forms in "' . __METHOD__ . '" should contain three elements.');
 
-        return $number%10==1&&$number%100!=11?$pluralForms[0]:($number%10>=2&&$number%10<=4&&($number%100<10||$number%100>=20)?$pluralForms[1]:$pluralForms[2]);
+        return $number % 10 == 1 && $number % 100 != 11 ? $pluralForms[0] : ($number % 10 >= 2 && $number % 10 <= 4 && ($number % 100 < 10 || $number % 100 >= 20) ? $pluralForms[1] : $pluralForms[2]);
     }
 
     /**
