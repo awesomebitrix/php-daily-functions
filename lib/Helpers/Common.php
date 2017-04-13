@@ -40,7 +40,7 @@ class Common
      * Plural form founder. Takes $number and $pluralForms of words and outputs resulting plural form.
      *
      * @param $number - number to pluralize. Ex.: 100
-     * @param $pluralForms - tree plural forms to substitute after $number. Ex.: array('день','дня','дней'), array('арбуз', 'арбуза', 'арбузов')
+     * @param $pluralForms - three plural forms to substitute after $number. Ex.: array('день','дня','дней'), array('арбуз', 'арбуза', 'арбузов')
      * @return string - plural form.
      * @throws \Exception
      */
