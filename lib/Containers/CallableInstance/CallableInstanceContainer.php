@@ -2,6 +2,8 @@
 
 namespace bfday\PHPDailyFunctions\Containers\CallableInstance;
 
+use bfday\PHPDailyFunctions\Helpers\Debug;
+
 /**
  * ToDO: in progress
  * Envelopes callable, static class or object so you can intercept calls
@@ -40,7 +42,7 @@ class CallableInstanceContainer
     /**
      * @var array
      */
-    protected $arguments;
+    protected $parameters;
 
     /**
      * @var CallableInstanceProcessorInterface
@@ -48,8 +50,8 @@ class CallableInstanceContainer
     protected $processor;
 
     /**
-     * @param  callable|string|object            $callableInstance - callable, path to class, object
-     * @param CallableInstanceProcessorInterface $processor        - strategy which processes calls interceptions
+     * @param  callable|string|object $callableInstance     - callable, path to class, object
+     * @param CallableInstanceProcessorInterface $processor - strategy which processes calls interceptions
      *
      * @throws \Exception
      */
@@ -57,16 +59,16 @@ class CallableInstanceContainer
     {
         switch (true) {
             case is_callable($callableInstance):
-                $this->instanceType = static::INSTANCE_TYPE__CALLABLE;
+                $this->callableInstanceType = static::INSTANCE_TYPE__CALLABLE;
                 break;
             case class_exists($callableInstance):
-                $this->instanceType = static::INSTANCE_TYPE__CALLABLE;
+                $this->callableInstanceType = static::INSTANCE_TYPE__CLASS;
                 break;
             case is_object($callableInstance):
-                $this->instanceType = static::INSTANCE_TYPE__CALLABLE;
+                $this->callableInstanceType = static::INSTANCE_TYPE__OBJECT;
                 break;
             default:
-                throw new \Exception('Supports callable or objects');
+                throw new \Exception('Supports only callable or objects');
         }
         $this->callableInstance = $callableInstance;
         $this->processor = $processor;
@@ -84,19 +86,23 @@ class CallableInstanceContainer
                 break;
             case static::INSTANCE_TYPE__CLASS:
                 if (!method_exists($this->callableInstance, $name)) {
-                    throw new \Exception('Call of not existing static method');
+                    throw new \Exception('Call of not existing static method: ' . $name);
                 }
                 $this->callable = $this->callableInstance . "::{$name}";
                 break;
             case static::INSTANCE_TYPE__OBJECT:
                 if (!method_exists($this->callableInstance, $name)) {
-                    throw new \Exception('Call of not existing object method');
+                    throw new \Exception('Call of not existing object method: ' . $name);
                 }
-                $this->callable = [$this->callableInstance, $name];
+                $this->callable = [
+                    $this->callableInstance,
+                    $name,
+                ];
                 break;
         }
         $this->methodName = $name;
-        $this->arguments = $arguments;
+        $this->parameters = $arguments;
+
         return $this->processor->run($this);
     }
 
@@ -137,6 +143,6 @@ class CallableInstanceContainer
      */
     public function getParameters()
     {
-        return $this->arguments;
+        return $this->parameters;
     }
 }
