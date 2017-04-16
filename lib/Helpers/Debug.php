@@ -35,13 +35,14 @@ class Debug
     /**
      * Shorten for '<pre>'.print_r($var, true).'</pre>'
      *
-     * @param $var mixed
+     * @param $variable
      * @param $doEcho bool
+     *
      * @return string
      */
-    public static function viewVar($var, $doEcho = false)
+    public static function viewVar($variable, $doEcho = false)
     {
-        $res = '<pre>' . print_r($var, true) . '</pre>';
+        $res = '<pre>' . print_r($variable, true) . '</pre>';
         if ($doEcho) echo $res;
         return $res;
     }

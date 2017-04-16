@@ -3,23 +3,33 @@
 namespace bfday\PHPDailyFunctions\Engine\Cache;
 
 use bfday\PHPDailyFunctions\Decorators\CallIntercepterDecorator;
-use bfday\PHPDailyFunctions\Decorators\CallIntercepterProcessStrategyInterface;
+use bfday\PHPDailyFunctions\Decorators\CallIntercepterProcessorInterface;
 use bfday\PHPDailyFunctions\Helpers\Strings;
 use bfday\PHPDailyFunctions\Helpers\System;
 
-class ResultCatcherDecorator implements CallIntercepterProcessStrategyInterface
+class CacheResultDecorator implements CallIntercepterProcessorInterface
 {
     const DEFAULT_RELATIVE_CACHE_PATH = "/bitrix/cache";
+    
     /**
-     * @var int - number of seconds to keep cache.
+     * @var int - number of seconds to keep cache
      */
     private $cacheTime = 3600;
 
     private $cacheStorageProvider;
 
-    private $cacheUpdateNeeded = false;
+    private $isCacheUpdateRequired = false;
 
     private $cacheDir;
+
+    public function __construct()
+    {
+    }
+
+    public function process(CallIntercepterDecorator $decoratorInstance)
+    {
+        // TODO: Implement process() method.
+    }
 
     /**
      * @param int $cacheTime
@@ -30,7 +40,7 @@ class ResultCatcherDecorator implements CallIntercepterProcessStrategyInterface
     public function setTime($cacheTime)
     {
         if (intval($cacheTime) <= 0) {
-            throw new \Exception('$cacheTime cannot be less zero.');
+            throw new \Exception('$cacheTime cannot be less zero');
         }
         $this->cacheTime = $cacheTime;
 
@@ -42,10 +52,10 @@ class ResultCatcherDecorator implements CallIntercepterProcessStrategyInterface
      * @throws \Exception
      *
      */
-    public function drop()
+    public function clear()
     {
         if (empty($this->cacheDir)) {
-            throw new \Exception('$this->cacheDir is empty.');
+            throw new \Exception('$this->cacheDir is empty');
         }
 
         $cacheDirPath = realpath($_SERVER["DOCUMENT_ROOT"]) . static::DEFAULT_RELATIVE_CACHE_PATH . DIRECTORY_SEPARATOR . $this->cacheDir;
@@ -63,7 +73,7 @@ class ResultCatcherDecorator implements CallIntercepterProcessStrategyInterface
     public function setStorageProvider($cacheStorageProvider)
     {
         if (empty($cacheStorageProvider)) {
-            throw new \Exception('$cacheStorageProvider cannot be empty.');
+            throw new \Exception('$cacheStorageProvider cannot be empty');
         }
         $this->cacheStorageProvider = $cacheStorageProvider;
 
@@ -94,7 +104,7 @@ class ResultCatcherDecorator implements CallIntercepterProcessStrategyInterface
 
         if ($cacheId === null or $cacheId === false) {
             if ($inputParams === false) {
-                throw new \Exception('$cacheId and $inputParams cannot be empty simultaneously.');
+                throw new \Exception('$cacheId and $inputParams cannot be empty simultaneously');
             } else {
                 $cacheId = serialize($inputParams);
             }
@@ -117,11 +127,11 @@ class ResultCatcherDecorator implements CallIntercepterProcessStrategyInterface
             $cacheDir
         )
         ) {
-            $this->cacheUpdateNeeded = false;
+            $this->isCacheUpdateRequired = false;
 
             return $this->cacheStorageProvider->getVars();
         } else {
-            $this->cacheUpdateNeeded = true;
+            $this->isCacheUpdateRequired = true;
         }
 
         return null;
@@ -130,10 +140,10 @@ class ResultCatcherDecorator implements CallIntercepterProcessStrategyInterface
     private function checkData()
     {
         if (empty($this->cacheStorageProvider)) {
-            throw new \Exception('Before using methods you have to initialize $cacheStorageProvider.');
+            throw new \Exception('Before using methods you have to initialize $cacheStorageProvider');
         }
         if (intval($this->cacheTime) <= 0) {
-            throw new \Exception('$cacheTime cannot be less zero.');
+            throw new \Exception('$cacheTime cannot be less zero');
         }
 
         return true;
@@ -147,8 +157,8 @@ class ResultCatcherDecorator implements CallIntercepterProcessStrategyInterface
      */
     public function saveData($cacheData)
     {
-        if ($this->cacheUpdateNeeded === false) {
-            throw new \Exception('You tried to save data when its not needed.');
+        if ($this->isCacheUpdateRequired === false) {
+            throw new \Exception('You tried to save data when its not needed');
         }
 
         $this->checkData();
@@ -156,14 +166,9 @@ class ResultCatcherDecorator implements CallIntercepterProcessStrategyInterface
         if ($this->cacheStorageProvider->startDataCache()) {
             $this->cacheStorageProvider->endDataCache($cacheData);
         } else {
-            throw new \Exception('Some error occur when tried to start cache data.');
+            throw new \Exception('Some error occur when tried to start cache data');
         }
 
         return true;
-    }
-
-    function process(CallIntercepterDecorator $decoratorInstance)
-    {
-        // TODO: Implement process() method.
     }
 }
