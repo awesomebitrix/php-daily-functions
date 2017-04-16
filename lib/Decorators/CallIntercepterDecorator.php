@@ -50,7 +50,7 @@ class CallIntercepterDecorator
     /**
      * CallIntercepterDecorator constructor.
      *
-     * @param                                         $decoratableInstance - callable, path to class, object
+     * @param  callable|string|object             $decoratableInstance - callable, path to class, object
      * @param CallIntercepterProcessStrategyInterface $processStrategy - strategy which processes calls interceptions
      *
      * @throws \Exception
