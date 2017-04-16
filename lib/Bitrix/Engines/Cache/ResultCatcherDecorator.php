@@ -2,33 +2,12 @@
 
 namespace bfday\PHPDailyFunctions\Engine\Cache;
 
+use bfday\PHPDailyFunctions\Decorators\CallIntercepterDecorator;
+use bfday\PHPDailyFunctions\Decorators\CallIntercepterProcessStrategyInterface;
 use bfday\PHPDailyFunctions\Helpers\Strings;
 use bfday\PHPDailyFunctions\Helpers\System;
 
-/**
- * @deprecated cause bad code
- *
- * How to use:
- * ```
- * $cache = new \bfday\PHPDailyFunctions\Engine\Cache\MethodResult();
- * $newData = ['newData'];
- * if (($dataFromCache = $cache
- *                              ->setStorageProvider(new \CPHPCache())
- *                              ->setTime(3000)
- *                              ->getData(null, $inputData)) === null
- * ) {
- *      $cache->saveData($newData);
- * }
- * ```
- * ! don't forget to provide canonical view for $newData
- *
- * ToDo: test this Class for multiple usage in single object
- * ToDo: cache interface required
- *
- * Class MethodResult
- * @package    bfday\PHPDailyFunctions\Engine\Cache
- */
-class MethodResult
+class ResultCatcherDecorator implements CallIntercepterProcessStrategyInterface
 {
     const DEFAULT_RELATIVE_CACHE_PATH = "/bitrix/cache";
     /**
@@ -181,5 +160,10 @@ class MethodResult
         }
 
         return true;
+    }
+
+    function process(CallIntercepterDecorator $decoratorInstance)
+    {
+        // TODO: Implement process() method.
     }
 }

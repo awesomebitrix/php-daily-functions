@@ -10,7 +10,7 @@ final class Regexps
     const SPECIAL_CHARS = "#$%^&*()+=-[]';,./{}|:<>?~";
 
     /**
-     * Does this string contains special char?
+     * Does this string contains special chars?
      *
      * @param $string - hashstack
      * @return bool
@@ -21,7 +21,7 @@ final class Regexps
     }
 
     /**
-     * Shield special chars in string if string contains them.
+     * Shields special chars in string if any.
      *
      * @param $string - hashstack
      * @return string - result
