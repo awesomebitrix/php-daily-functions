@@ -4,6 +4,11 @@ namespace bfday\PHPDailyFunctions\Decorators;
 
 /**
  * ToDO: in progress
+ * Decorates callable, static class or object so you can intercept calls
+ * To call any method of decorated instance just use it's method names and corresponding params
+ * So if you want hints in your code simply write above variable phpDoc like: var RequiredClassName
+ *
+ * @method call - calls simple callable if it was passed to decorator
  *
  * Class CallThisDecorator
  * @package bfday\PHPDailyFunctions\Decorators
@@ -14,7 +19,7 @@ class CallIntercepterDecorator
     const INSTANCE_TYPE__CLASS    = 2;
     const INSTANCE_TYPE__OBJECT   = 3;
 
-    const METHOD_NAME_FOR_CALLABLE_CALLS = 'callableCaller';
+    const METHOD_NAME_FOR_CALLABLE_CALLS = 'call';
 
     /**
      * @var int
@@ -42,7 +47,15 @@ class CallIntercepterDecorator
      */
     protected $processStrategy;
 
-    final function __construct(CallIntercepterProcessStrategyInterface $processStrategy, $decoratableInstance)
+    /**
+     * CallIntercepterDecorator constructor.
+     *
+     * @param                                         $decoratableInstance - callable, path to class, object
+     * @param CallIntercepterProcessStrategyInterface $processStrategy - strategy which processes calls interceptions
+     *
+     * @throws \Exception
+     */
+    final function __construct($decoratableInstance, CallIntercepterProcessStrategyInterface $processStrategy)
     {
         if (is_callable($decoratableInstance)) {
             $this->instanceType = static::INSTANCE_TYPE__CALLABLE;
