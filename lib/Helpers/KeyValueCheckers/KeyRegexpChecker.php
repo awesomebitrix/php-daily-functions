@@ -1,8 +1,6 @@
 <?
 namespace bfday\PHPDailyFunctions\Helpers\KeyValueCheckers;
 
-use bfday\PHPDailyFunctions\Helpers\Debug;
-
 class KeyRegexpChecker implements KeyValueCheckerInterface
 {
     protected $regExp;
@@ -39,8 +37,6 @@ class KeyRegexpChecker implements KeyValueCheckerInterface
         if ($this->isRegistryIndependent) {
             $this->regExp .= 'i';
         }
-
-        Debug::logVar($this->regExp);
     }
 
     public function run($key, $value)
