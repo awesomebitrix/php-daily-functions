@@ -340,7 +340,7 @@ class Arrays
      * @return bool|array - array of missing keys
      * @throws \Exception
      */
-    public static function whatkeysAreMissing($ar, $keysCodes, $isIgnoreCase = false)
+    public static function whatKeysAreMissing($ar, $keysCodes, $isIgnoreCase = false)
     {
         if (!is_array($ar) || !is_array($keysCodes)) {
             throw new \Exception('Params must have array type.');
