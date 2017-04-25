@@ -6,6 +6,9 @@ use Phinx\Migration\AbstractMigration;
 
 class Base extends AbstractMigration
 {
+    /**
+     * Don't forget call "parent::up();" in derived class
+     */
     public function up()
     {
         parent::up();
@@ -16,10 +19,11 @@ class Base extends AbstractMigration
     /**
      * Method executes before "up()" and "down()".
      */
-    protected function initCommonData()
-    {
-    }
+    protected function initCommonData() {}
 
+    /**
+     * Don't forget call "parent::down();" in derived class
+     */
     public function down()
     {
         parent::down();
